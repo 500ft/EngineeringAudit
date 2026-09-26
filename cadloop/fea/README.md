@@ -103,6 +103,33 @@ where the peak at mid-thickness genuinely exceeds the plane-stress value. Right
 direction, plausible magnitude. Not independently confirmed here, so it is a
 consistent explanation rather than a demonstrated one.
 
+## Animating the deformation
+
+```bash
+.venv/bin/python cadloop/fea/animate.py
+```
+
+Writes `runs/<part>_deformation.gif`: the mesh warped by the nodal displacement
+vector, swept from undeformed to deformed and back, against a thin outline of the
+original shape.
+
+**The exaggeration factor is burned into every frame, and that is not decoration.**
+The real peak deflection here is 0.001273 mm on an 80 mm span -- about a
+ten-thousandth of the part. Nothing is visible at true scale, so the animation is
+scaled 6284x. A deformation animation without its scale factor reads as a part
+that is visibly bending when it is not, and that is the one way this picture can
+mislead. Two mistakes were made and fixed while producing it: white caption text
+on a white background made the factor invisible, and a caption saying "the right
+face" was wrong because the iso view puts +X at the lower left. Faces are named by
+coordinate and by colour, never by where they appear on screen.
+
+What it shows: pure axial extension along +X, zero at the fixed X=0 face, maximum
+at the pulled X=80 face, with no bending or twist -- which is what a centred
+uniaxial load on a symmetric part should produce, and a check in its own right.
+The hole goes elliptical, stretched along the load axis and pinched across it by
+Poisson contraction, which is why the stress peaks on the flanks of the hole
+rather than at its poles.
+
 ## Host notes
 
 MAPDL v261 at
