@@ -10,3 +10,4 @@ cadloop/runs/
 *.sldprt
 *.step
 *.bmp
+.DS_Store

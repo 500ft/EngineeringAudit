@@ -46,8 +46,9 @@ PORT = 50052
 # being treated as a converged answer.
 STUDENT_NODE_LIMIT = 128_000
 
-STEEL_E_MPA = 200_000.0
-STEEL_NU = 0.3
+# Material comes from geometry.json so the FEA cannot disagree with the CAD
+# oracle about what the part is made of. It did once: steel's modulus against an
+# aluminium density, which left stress right and displacement low by 2.9x.
 
 # The peak is at the hole edge. A fully fixed end face also raises stress in its
 # own corners, and that concentration is an artefact of the restraint rather than
@@ -199,7 +200,8 @@ def import_geometry(mapdl, iges_name: str, report: dict) -> list[int]:
     return areas
 
 
-def mesh_and_solve(mapdl, size_mm: float, geometry: dict, pressure_mpa: float) -> dict:
+def mesh_and_solve(mapdl, size_mm: float, geometry: dict, material: dict,
+                   pressure_mpa: float, hole_divisions: int = 0) -> dict:
     """One element size: mesh, apply boundary conditions, solve, measure."""
     import numpy as np
 
@@ -208,21 +210,40 @@ def mesh_and_solve(mapdl, size_mm: float, geometry: dict, pressure_mpa: float) -
     hole_d = geometry["hole_diameter"]
     hole_x, hole_y = length / 2.0, width / 2.0
 
+    out = {"element_size_mm": size_mm}
+
     mapdl.prep7()
     mapdl.vclear("all")
     mapdl.et(1, "SOLID186")
-    mapdl.mp("EX", 1, STEEL_E_MPA)
-    mapdl.mp("PRXY", 1, STEEL_NU)
+    mapdl.mp("EX", 1, material["youngs_modulus"])
+    mapdl.mp("PRXY", 1, material["poissons_ratio"])
     mapdl.esize(size_mm)
     # The plate-with-hole volume does not admit structured brick meshing.
     mapdl.mshape(1, "3D")
     mapdl.mshkey(0)
+    if hole_divisions:
+        # Refine where the gradient is, before meshing. EREFINE was tried first and
+        # is a silent no-op on this SOLID186 mesh: it selected 1079 elements,
+        # accepted level 2, raised nothing, and returned the identical element and
+        # node counts. Setting divisions on the hole's edge lines is a pre-mesh
+        # control the mesher cannot ignore, and the node count proves it applied.
+        box = hole_d / 2.0 + 1.0
+        mapdl.allsel()
+        mapdl.lsel("S", "LOC", "X", hole_x - box, hole_x + box)
+        mapdl.lsel("R", "LOC", "Y", hole_y - box, hole_y + box)
+        out["hole_lines_selected"] = int(mapdl.get_value("line", 0, "count"))
+        if out["hole_lines_selected"]:
+            mapdl.lesize("ALL", "", "", hole_divisions)
+            out["hole_divisions_per_line"] = hole_divisions
+        else:
+            out["hole_refine_error"] = "no lines found around the hole; not refined"
+        mapdl.allsel()
+
     mapdl.allsel()
     mapdl.vmesh("all")
 
-    out = {"element_size_mm": size_mm,
-           "n_elements": int(mapdl.mesh.n_elem),
-           "n_nodes": int(mapdl.mesh.n_node)}
+    out["n_elements"] = int(mapdl.mesh.n_elem)
+    out["n_nodes"] = int(mapdl.mesh.n_node)
     if out["n_elements"] == 0:
         out["error"] = "meshing produced no elements"
         return out
@@ -325,13 +346,24 @@ def main() -> int:
     parser.add_argument("--geometry", type=Path,
                         default=HERE.parent / "scaffold" / "geometry.json")
     parser.add_argument("--pressure-mpa", type=float, default=1.0)
-    parser.add_argument("--element-sizes", default="5,3,2",
+    parser.add_argument("--element-sizes", default="5,3,2,1.5",
                         help="mm, coarse to fine; the sweep stops at the node limit")
+    parser.add_argument("--hole-divisions", type=int, default=0,
+                        help="element divisions per hole edge line, set before meshing")
+    parser.add_argument("--tag", default="",
+                        help="suffix for image and result filenames, to compare runs")
     parser.add_argument("--out-dir", type=Path, default=HERE / "runs")
     args = parser.parse_args()
 
-    g = json.loads(args.geometry.read_text())[args.part]
+    doc = json.loads(args.geometry.read_text())
+    g = doc[args.part]
     geometry = {k: g[k]["value"] for k in ("length", "width", "thickness", "hole_diameter")}
+    m = doc["material"]
+    material = {"name": m.get("name", "unnamed"),
+                "youngs_modulus": m["youngs_modulus"]["value"],
+                "poissons_ratio": m["poissons_ratio"]["value"],
+                "yield_strength": m["yield_strength"]["value"],
+                "density": m["density"]["value"]}
 
     out_dir = args.out_dir
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -339,9 +371,32 @@ def main() -> int:
         "status": "error", "message": "", "part": args.part,
         "iges_name": "%s.igs" % args.part,
         "geometry_mm": geometry,
-        "pressure_mpa": args.pressure_mpa,
-        "material": {"E_mpa": STEEL_E_MPA, "nu": STEEL_NU},
+        "material": material,
         "meshes": [],
+    }
+
+    # Stated as data, not left implicit in the code: what is held, what is pushed,
+    # how hard, and why that load rather than another.
+    loaded_area_mm2 = geometry["width"] * geometry["thickness"]
+    report["load_case"] = {
+        "fixed": "entire X=0 end face, %gx%g mm, all DOF (D,ALL,ALL,0)"
+                 % (geometry["width"], geometry["thickness"]),
+        "loaded": "entire X=%g end face, %gx%g mm"
+                  % (geometry["length"], geometry["width"], geometry["thickness"]),
+        "traction_mpa": args.pressure_mpa,
+        "loaded_area_mm2": loaded_area_mm2,
+        "total_force_n": args.pressure_mpa * loaded_area_mm2,
+        "direction": "+X, tension (negative PRES is tension)",
+        "rationale": (
+            "Chosen because a closed-form answer exists for it, so the pipeline can "
+            "be checked rather than believed. 1 MPa is arbitrary: the problem is "
+            "linear elastic, so stress scales exactly with the traction, and 1 MPa "
+            "makes the peak stress read directly as the stress-concentration factor."),
+        "not_a_service_load": (
+            "This validates the pipeline, not the part. No duty cycle, mounting "
+            "arrangement or real force for this plate has been established, so the "
+            "factor of safety below is the factor against this arbitrary 1 MPa and "
+            "says nothing about whether the part survives anything real."),
     }
 
     # The oracle, computed before anything is solved so it cannot be fitted to
@@ -372,12 +427,19 @@ def main() -> int:
 
         best = None
         for size in [float(s) for s in args.element_sizes.split(",")]:
-            result = mesh_and_solve(mapdl, size, geometry, args.pressure_mpa)
+            result = mesh_and_solve(mapdl, size, geometry, material, args.pressure_mpa,
+                                    hole_divisions=args.hole_divisions)
+            # How much the peak still moves between meshes is the honest measure of
+            # whether it has converged, so it is recorded per step.
+            if best is not None and result.get("max_von_mises_mpa_at_hole"):
+                previous = best["max_von_mises_mpa_at_hole"]
+                result["peak_change_from_previous_rel"] = (
+                    (result["max_von_mises_mpa_at_hole"] - previous) / previous)
             report["meshes"].append(result)
             if "error" in result:
                 break
             best = result
-            render(mapdl, out_dir, "%s_h%g" % (args.part, size), report)
+            render(mapdl, out_dir, "%s_h%g%s" % (args.part, size, args.tag), report)
 
         if best is None:
             report["message"] = "no mesh size solved; see meshes[]"
@@ -397,6 +459,26 @@ def main() -> int:
             "error_rel": error_rel,
             "agrees": error_rel <= KT_TOLERANCE_REL,
         })
+        # Does the part survive this load? Reported separately from whether the
+        # solve is trustworthy: they are different questions and conflating them is
+        # how a converged, verified solve of the wrong load case gets called a pass.
+        yield_strength = material["yield_strength"]
+        report["strength"] = {
+            "material": material["name"],
+            "yield_strength_mpa": yield_strength,
+            "peak_von_mises_mpa": peak,
+            "factor_of_safety": yield_strength / peak,
+            "yields": peak >= yield_strength,
+            "caveat": "against the arbitrary load above, not a service load",
+        }
+        settled = best.get("peak_change_from_previous_rel")
+        report["convergence"] = {
+            "finest_element_size_mm": best["element_size_mm"],
+            "nodes": best["n_nodes"],
+            "peak_change_at_finest_rel": settled,
+            "node_limit": STUDENT_NODE_LIMIT,
+            "limited_by_licence": best["n_nodes"] > 0.8 * STUDENT_NODE_LIMIT,
+        }
         report["status"] = "ok" if report["oracle"]["agrees"] else "error"
         report["message"] = (
             "solved; peak stress at the hole agrees with Heywood/Howland to %.1f%%"
@@ -420,7 +502,7 @@ def main() -> int:
             tunnel.terminate()
         for held in _HELD:
             held.terminate()
-        (out_dir / ("%s_fea_result.json" % args.part)).write_text(
+        (out_dir / ("%s%s_fea_result.json" % (args.part, args.tag))).write_text(
             json.dumps(report, indent=2) + "\n")
         print(json.dumps(report, indent=2))
 
