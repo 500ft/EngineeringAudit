@@ -1,12 +1,49 @@
 {
   "_comment": "Single source of geometry, read by both oracle.py and author_part.py so they cannot disagree. Give every value an evidence_state; see docs/cad_agent_briefing.md for what the states mean and which may be chosen by the designer.",
   "mounting_plate": {
-    "length": {"value": 80.0, "unit": "mm", "evidence_state": "design_choice"},
-    "width": {"value": 50.0, "unit": "mm", "evidence_state": "design_choice"},
-    "thickness": {"value": 8.0, "unit": "mm", "evidence_state": "design_choice"},
-    "hole_diameter": {"value": 12.0, "unit": "mm", "evidence_state": "design_choice"}
+    "length": {
+      "value": 80.0,
+      "unit": "mm",
+      "evidence_state": "design_choice"
+    },
+    "width": {
+      "value": 50.0,
+      "unit": "mm",
+      "evidence_state": "design_choice"
+    },
+    "thickness": {
+      "value": 8.0,
+      "unit": "mm",
+      "evidence_state": "design_choice"
+    },
+    "hole_diameter": {
+      "value": 12.0,
+      "unit": "mm",
+      "evidence_state": "design_choice"
+    }
   },
   "material": {
-    "density": {"value": 2700.0, "unit": "kg/m^3", "evidence_state": "model_assumption"}
+    "_comment": "Aluminium 6061-T6. The FEA reads E, nu and yield from here so it cannot disagree with the density the CAD oracle uses -- it did: the first solve used steel's 200 GPa against this 2700 kg/m3 aluminium, which left stress right (traction-loaded stress is independent of E) and displacement low by 2.9x.",
+    "name": "aluminium 6061-T6",
+    "density": {
+      "value": 2700.0,
+      "unit": "kg/m^3",
+      "evidence_state": "model_assumption"
+    },
+    "youngs_modulus": {
+      "value": 68900.0,
+      "unit": "MPa",
+      "evidence_state": "model_assumption"
+    },
+    "poissons_ratio": {
+      "value": 0.33,
+      "unit": "-",
+      "evidence_state": "model_assumption"
+    },
+    "yield_strength": {
+      "value": 276.0,
+      "unit": "MPa",
+      "evidence_state": "model_assumption"
+    }
   }
 }

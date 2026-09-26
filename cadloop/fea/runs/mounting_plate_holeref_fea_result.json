@@ -1,0 +1,126 @@
+{
+  "status": "ok",
+  "message": "solved; peak stress at the hole agrees with Heywood/Howland to 2.8%",
+  "part": "mounting_plate",
+  "iges_name": "mounting_plate.igs",
+  "geometry_mm": {
+    "length": 80.0,
+    "width": 50.0,
+    "thickness": 8.0,
+    "hole_diameter": 12.0
+  },
+  "material": {
+    "name": "aluminium 6061-T6",
+    "youngs_modulus": 68900.0,
+    "poissons_ratio": 0.33,
+    "yield_strength": 276.0,
+    "density": 2700.0
+  },
+  "meshes": [
+    {
+      "element_size_mm": 3.0,
+      "hole_lines_selected": 6,
+      "hole_divisions_per_line": 24,
+      "n_elements": 48517,
+      "n_nodes": 72097,
+      "bbox_mm": [
+        80.00000000000001,
+        50.00000000000001,
+        8.000000000000025
+      ],
+      "expected_bbox_mm": [
+        80.0,
+        50.0,
+        8.0
+      ],
+      "origin_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "fixed_nodes": 261,
+      "loaded_areas": 1,
+      "max_displacement_mm": 0.0012730748309514005,
+      "max_von_mises_mpa_global": 3.299105690360159,
+      "hole_band_nodes": 38967,
+      "max_von_mises_mpa_at_hole": 3.299105690360159
+    }
+  ],
+  "load_case": {
+    "fixed": "entire X=0 end face, 50x8 mm, all DOF (D,ALL,ALL,0)",
+    "loaded": "entire X=80 end face, 50x8 mm",
+    "traction_mpa": 1.0,
+    "loaded_area_mm2": 400.0,
+    "total_force_n": 400.0,
+    "direction": "+X, tension (negative PRES is tension)",
+    "rationale": "Chosen because a closed-form answer exists for it, so the pipeline can be checked rather than believed. 1 MPa is arbitrary: the problem is linear elastic, so stress scales exactly with the traction, and 1 MPa makes the peak stress read directly as the stress-concentration factor.",
+    "not_a_service_load": "This validates the pipeline, not the part. No duty cycle, mounting arrangement or real force for this plate has been established, so the factor of safety below is the factor against this arbitrary 1 MPa and says nothing about whether the part survives anything real."
+  },
+  "oracle": {
+    "kt_net_section": 2.43846528,
+    "gross_stress_mpa": 1.0,
+    "net_stress_mpa": 1.3157894736842106,
+    "net_over_gross": 1.3157894736842106,
+    "expected_peak_mpa": 3.2085069473684213,
+    "expected_peak_over_gross": 3.2085069473684213,
+    "source": "Heywood/Howland finite-width plate, central hole, uniaxial tension",
+    "d_over_W": 0.24,
+    "tolerance_rel": 0.12,
+    "measured_peak_mpa": 3.299105690360159,
+    "measured_peak_over_gross": 3.299105690360159,
+    "error_rel": 0.028237041240021583,
+    "agrees": true
+  },
+  "mapdl_launch": "already listening on 50052",
+  "mapdl_version": "26.1",
+  "imported_areas": 8,
+  "volumes_after_va": 1,
+  "images": {
+    "mesh": "mounting_plate_h3_holeref_mesh.png",
+    "von_mises": "mounting_plate_h3_holeref_von_mises.png",
+    "displacement": "mounting_plate_h3_holeref_displacement.png"
+  },
+  "finest_solved": {
+    "element_size_mm": 3.0,
+    "hole_lines_selected": 6,
+    "hole_divisions_per_line": 24,
+    "n_elements": 48517,
+    "n_nodes": 72097,
+    "bbox_mm": [
+      80.00000000000001,
+      50.00000000000001,
+      8.000000000000025
+    ],
+    "expected_bbox_mm": [
+      80.0,
+      50.0,
+      8.0
+    ],
+    "origin_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "fixed_nodes": 261,
+    "loaded_areas": 1,
+    "max_displacement_mm": 0.0012730748309514005,
+    "max_von_mises_mpa_global": 3.299105690360159,
+    "hole_band_nodes": 38967,
+    "max_von_mises_mpa_at_hole": 3.299105690360159
+  },
+  "strength": {
+    "material": "aluminium 6061-T6",
+    "yield_strength_mpa": 276.0,
+    "peak_von_mises_mpa": 3.299105690360159,
+    "factor_of_safety": 83.6590354793603,
+    "yields": false,
+    "caveat": "against the arbitrary load above, not a service load"
+  },
+  "convergence": {
+    "finest_element_size_mm": 3.0,
+    "nodes": 72097,
+    "peak_change_at_finest_rel": null,
+    "node_limit": 128000,
+    "limited_by_licence": false
+  }
+}

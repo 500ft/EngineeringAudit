@@ -31,40 +31,77 @@ So the run produces both, and the acceptance is the number:
 - within 12% relative,
 - on a model whose bounding box has been **measured** to match the geometry file.
 
-## What the last run measured
+## What the last runs measured
 
-`mounting_plate`, 80x50x8 mm with a 12 mm central hole, one end face fixed, 1 MPa
-tension on the other, steel (E = 200 GPa, nu = 0.3).
+`mounting_plate`, 80x50x8 mm with a 12 mm central hole, aluminium 6061-T6
+(E = 68.9 GPa, nu = 0.33, yield 276 MPa), read from `geometry.json`.
 
-| element size | elements | nodes | peak at hole |
+**Load case**, stated in the result JSON as data rather than left implicit:
+
+| | |
+| --- | --- |
+| Held | entire X=0 end face, 50x8 mm, all DOF (`D,ALL,ALL,0`) |
+| Loaded | entire X=80 end face, 50x8 mm = 400 mm2 |
+| Traction | 1 MPa, `SFA ... PRES, -1` (negative pressure is tension) |
+| Total force | **400 N**, +X |
+
+Why this load: because a closed-form answer exists for it, so the pipeline can be
+checked rather than believed. 1 MPa is arbitrary -- the problem is linear elastic,
+so stress scales exactly with the traction, and 1 MPa makes the peak read off
+directly as the stress-concentration factor. **It is not a service load.** No duty
+cycle or mounting arrangement has been established for this plate, so the factor
+of safety below is against an arbitrary 400 N and says nothing about whether the
+part survives anything real.
+
+**Global refinement** runs out of licence before it runs out of error:
+
+| element size | nodes | peak at hole | change |
 | --- | --- | --- | --- |
-| 5 mm | 1 769 | 3 409 | 2.811 MPa |
-| 3 mm | 10 070 | 16 207 | 2.984 MPa |
-| 2 mm | 25 291 | 39 475 | 2.973 MPa |
+| 5 mm | 3 409 | 2.797 MPa | |
+| 3 mm | 16 207 | 2.991 MPa | +6.9% |
+| 2 mm | 39 475 | 2.954 MPa | -1.2% |
+| 1.5 mm | 108 905 | 3.170 MPa | +7.3% |
+
+Non-monotonic, still moving 7% at 85% of the 128k node ceiling. That is free-tet
+node placement, not convergence: the peak is sampled at whatever node lands
+nearest the true maximum.
+
+**Refining the hole instead** converges, and on fewer nodes:
+
+| hole divisions | global size | nodes | peak at hole |
+| --- | --- | --- | --- |
+| 24 | 3 mm | 72 097 | 3.2991 MPa |
+| 48 | 5 mm | 121 301 | 3.3013 MPa |
+
+Doubling hole resolution moved the peak **0.07%**, while the global mesh was made
+*coarser*. The peak is controlled entirely by resolution at the hole; the far
+field was never the issue.
 
 ```
-d/W 0.240   Kt(net) 2.4385   net/gross 1.3158
-expected 3.2085 MPa   measured 2.9734 MPa   error 7.3%   agrees
+converged peak 3.301 MPa   Howland (2D) 3.209 MPa   +2.9%
+displacement 0.001273 mm   FoS vs 276 MPa yield: 87 (against the arbitrary load)
 bbox [80.0, 50.0, 8.0] at origin [0, 0, 0]
 ```
 
 The images corroborate the number independently: peak at the hole edge
-*perpendicular* to the load, minimum at the poles 90° away, far field at the
-applied 1 MPa. That is Kirsch's four-lobe pattern, with the hole edge in
+*perpendicular* to the load, minimum at the poles 90 degrees away, far field at
+the applied 1 MPa. That is Kirsch's four-lobe pattern, with the hole edge in
 compression along the load axis. A wrong load direction or a unit error cannot
 produce it.
 
-## How good the agreement is, honestly
+## The residual 2.9%, and what it is not
 
-7.3% is agreement, not validation. The bias is **one-sided**: this plate and an
-earlier 150x80x6 one both land *below* the correlation, by 7.3% and 9.1%. That is
-the direction the model's own assumptions force — the correlation assumes a long
-plate in uniform far-field tension with free lateral edges, while this model
-clamps one end face completely and is only 1.6 widths long. Peak stress at a
-raiser also converges from below as the mesh refines.
+An earlier version of this file attributed a 7.3% gap to the clamped end face and
+the plate's short length. **That was wrong**, and the convergence study is what
+disproved it: coarsening the far-field mesh while refining the hole left the
+answer unchanged, so the far field and its restraint are not what set the peak.
+The gap was an under-resolved hole.
 
-A tighter comparison would need a restraint that does not fight Poisson
-contraction. That is the obvious next step and it is not done.
+What remains is +2.9% above the closed form, stable under refinement. Howland's
+solution is two-dimensional plane stress; this is a 3D solid with t/d = 0.67,
+where the peak at mid-thickness genuinely exceeds the plane-stress value. Right
+direction, plausible magnitude. Not independently confirmed here, so it is a
+consistent explanation rather than a demonstrated one.
 
 ## Host notes
 
