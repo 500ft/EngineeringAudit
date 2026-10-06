@@ -39,8 +39,8 @@ consumers needing mesh stability must inspect `evidence.converged` explicitly.
 
 ## Model and comparison boundary
 
-The result JSON stores geometry in mm, elastic modulus and stress in MPa,
-traction, loaded area and total force in N. The left X face is fixed in all
+The result JSON stores geometry in mm, elastic modulus, stress and traction
+in MPa, loaded area in mm², and total force in N. The left X face is fixed in all
 DOFs and the right X face receives tensile traction. This is an arbitrary
 linear-static verification load with no established service-load meaning.
 
