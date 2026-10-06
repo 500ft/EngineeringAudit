@@ -1,3 +1,5 @@
+> Historical document, superseded on 2026-10-06. See the active [ROADMAP](../ROADMAP.md). Claims below are preserved history, not current evidence.
+
 # engineering-audit v1 Credibility Plan
 
 Date: 2026-06-21

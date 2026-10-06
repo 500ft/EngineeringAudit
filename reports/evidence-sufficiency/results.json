@@ -1,0 +1,523 @@
+{
+  "scope": "Development verification example: one analytic family, two loading configurations; no holdout or natural model failures",
+  "rows": [
+    {
+      "id": "8b8b84d646f9",
+      "base": "bar_force",
+      "loading": "force",
+      "provenance": "seeded_development",
+      "variant": "correct_control",
+      "reference": {
+        "force": 1000,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "output": {
+        "force": 1000,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "correct": true,
+      "checks": {
+        "completed": true,
+        "stress": true,
+        "displacement": true,
+        "reaction": true
+      }
+    },
+    {
+      "id": "29dd30d1df31",
+      "base": "bar_force",
+      "loading": "force",
+      "provenance": "seeded_development",
+      "variant": "benign_partition",
+      "reference": {
+        "force": 1000,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "output": {
+        "force": 1000,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "correct": true,
+      "checks": {
+        "completed": true,
+        "stress": true,
+        "displacement": true,
+        "reaction": true
+      }
+    },
+    {
+      "id": "64f86da30fb8",
+      "base": "bar_force",
+      "loading": "force",
+      "provenance": "seeded_development",
+      "variant": "nuisance_density",
+      "reference": {
+        "force": 1000,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "output": {
+        "force": 1000,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "correct": true,
+      "checks": {
+        "completed": true,
+        "stress": true,
+        "displacement": true,
+        "reaction": true
+      }
+    },
+    {
+      "id": "5d7839545a84",
+      "base": "bar_force",
+      "loading": "force",
+      "provenance": "seeded_development",
+      "variant": "modulus_fault",
+      "reference": {
+        "force": 1000,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "output": {
+        "force": 1000,
+        "stress": 50.0,
+        "displacement": 0.05
+      },
+      "correct": false,
+      "checks": {
+        "completed": true,
+        "stress": true,
+        "displacement": false,
+        "reaction": true
+      }
+    },
+    {
+      "id": "ee90b3ba9de6",
+      "base": "bar_force",
+      "loading": "force",
+      "provenance": "seeded_development",
+      "variant": "area_fault",
+      "reference": {
+        "force": 1000,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "output": {
+        "force": 1000,
+        "stress": 100.0,
+        "displacement": 0.05
+      },
+      "correct": false,
+      "checks": {
+        "completed": true,
+        "stress": false,
+        "displacement": false,
+        "reaction": true
+      }
+    },
+    {
+      "id": "6e5e366e6ca3",
+      "base": "bar_force",
+      "loading": "force",
+      "provenance": "seeded_development",
+      "variant": "load_fault",
+      "reference": {
+        "force": 1000,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "output": {
+        "force": 500.0,
+        "stress": 25.0,
+        "displacement": 0.0125
+      },
+      "correct": false,
+      "checks": {
+        "completed": true,
+        "stress": false,
+        "displacement": false,
+        "reaction": false
+      }
+    },
+    {
+      "id": "94e18937ad4f",
+      "base": "bar_displacement",
+      "loading": "displacement",
+      "provenance": "seeded_development",
+      "variant": "correct_control",
+      "reference": {
+        "force": 1000.0,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "output": {
+        "force": 1000.0,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "correct": true,
+      "checks": {
+        "completed": true,
+        "stress": true,
+        "displacement": true,
+        "reaction": true
+      }
+    },
+    {
+      "id": "8de649329487",
+      "base": "bar_displacement",
+      "loading": "displacement",
+      "provenance": "seeded_development",
+      "variant": "benign_partition",
+      "reference": {
+        "force": 1000.0,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "output": {
+        "force": 1000.0,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "correct": true,
+      "checks": {
+        "completed": true,
+        "stress": true,
+        "displacement": true,
+        "reaction": true
+      }
+    },
+    {
+      "id": "6fa50c72b65e",
+      "base": "bar_displacement",
+      "loading": "displacement",
+      "provenance": "seeded_development",
+      "variant": "nuisance_density",
+      "reference": {
+        "force": 1000.0,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "output": {
+        "force": 1000.0,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "correct": true,
+      "checks": {
+        "completed": true,
+        "stress": true,
+        "displacement": true,
+        "reaction": true
+      }
+    },
+    {
+      "id": "abd629c1ac38",
+      "base": "bar_displacement",
+      "loading": "displacement",
+      "provenance": "seeded_development",
+      "variant": "modulus_fault",
+      "reference": {
+        "force": 1000.0,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "output": {
+        "force": 500.0,
+        "stress": 25.0,
+        "displacement": 0.025
+      },
+      "correct": false,
+      "checks": {
+        "completed": true,
+        "stress": false,
+        "displacement": true,
+        "reaction": false
+      }
+    },
+    {
+      "id": "e8e0331f89d1",
+      "base": "bar_displacement",
+      "loading": "displacement",
+      "provenance": "seeded_development",
+      "variant": "area_fault",
+      "reference": {
+        "force": 1000.0,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "output": {
+        "force": 500.0,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "correct": false,
+      "checks": {
+        "completed": true,
+        "stress": true,
+        "displacement": true,
+        "reaction": false
+      }
+    },
+    {
+      "id": "cb896d709610",
+      "base": "bar_displacement",
+      "loading": "displacement",
+      "provenance": "seeded_development",
+      "variant": "load_fault",
+      "reference": {
+        "force": 1000.0,
+        "stress": 50.0,
+        "displacement": 0.025
+      },
+      "output": {
+        "force": 500.0,
+        "stress": 25.0,
+        "displacement": 0.0125
+      },
+      "correct": false,
+      "checks": {
+        "completed": true,
+        "stress": false,
+        "displacement": false,
+        "reaction": false
+      }
+    }
+  ],
+  "scores": [
+    {
+      "policy": "fixed_stress",
+      "artifacts": 12,
+      "wrong_accepts": 2.0,
+      "wrong_rejects": 0.0,
+      "abstentions": 0.0,
+      "cost": 12.0,
+      "coverage": 1.0,
+      "mean_cost": 1.0,
+      "error_among_decisions": 0.16666666666666666
+    },
+    {
+      "policy": "random",
+      "artifacts": 12,
+      "wrong_accepts": 3.0,
+      "wrong_rejects": 0.0,
+      "abstentions": 0.0,
+      "cost": 12.0,
+      "coverage": 1.0,
+      "mean_cost": 1.0,
+      "error_among_decisions": 0.25
+    },
+    {
+      "policy": "sensitivity",
+      "artifacts": 12,
+      "wrong_accepts": 1.0,
+      "wrong_rejects": 0.0,
+      "abstentions": 0.0,
+      "cost": 12.0,
+      "coverage": 1.0,
+      "mean_cost": 1.0,
+      "error_among_decisions": 0.08333333333333333
+    },
+    {
+      "policy": "all_checks",
+      "artifacts": 12,
+      "wrong_accepts": 0.0,
+      "wrong_rejects": 0.0,
+      "abstentions": 0.0,
+      "cost": 48.0,
+      "coverage": 1.0,
+      "mean_cost": 4.0,
+      "error_among_decisions": 0.0
+    },
+    {
+      "policy": "cautious_stress",
+      "artifacts": 12,
+      "wrong_accepts": 0.0,
+      "wrong_rejects": 0.0,
+      "abstentions": 8.0,
+      "cost": 12.0,
+      "coverage": 0.3333333333333333,
+      "mean_cost": 1.0,
+      "error_among_decisions": 0.0
+    },
+    {
+      "policy": "abstain",
+      "artifacts": 12,
+      "wrong_accepts": 0.0,
+      "wrong_rejects": 0.0,
+      "abstentions": 12.0,
+      "cost": 0.0,
+      "coverage": 0.0,
+      "mean_cost": 0.0,
+      "error_among_decisions": null
+    }
+  ],
+  "matched_coverage_and_cost_groups": {
+    "coverage=1,mean_cost=1": [
+      "fixed_stress",
+      "random",
+      "sensitivity"
+    ],
+    "coverage=1,mean_cost=4": [
+      "all_checks"
+    ],
+    "coverage=0.333333,mean_cost=1": [
+      "cautious_stress"
+    ],
+    "coverage=0,mean_cost=0": [
+      "abstain"
+    ]
+  },
+  "by_base": {
+    "bar_force": [
+      {
+        "policy": "fixed_stress",
+        "artifacts": 6,
+        "wrong_accepts": 1.0,
+        "wrong_rejects": 0.0,
+        "abstentions": 0.0,
+        "cost": 6.0,
+        "coverage": 1.0,
+        "mean_cost": 1.0,
+        "error_among_decisions": 0.16666666666666666
+      },
+      {
+        "policy": "random",
+        "artifacts": 6,
+        "wrong_accepts": 1.5,
+        "wrong_rejects": 0.0,
+        "abstentions": 0.0,
+        "cost": 6.0,
+        "coverage": 1.0,
+        "mean_cost": 1.0,
+        "error_among_decisions": 0.25
+      },
+      {
+        "policy": "sensitivity",
+        "artifacts": 6,
+        "wrong_accepts": 0.0,
+        "wrong_rejects": 0.0,
+        "abstentions": 0.0,
+        "cost": 6.0,
+        "coverage": 1.0,
+        "mean_cost": 1.0,
+        "error_among_decisions": 0.0
+      },
+      {
+        "policy": "all_checks",
+        "artifacts": 6,
+        "wrong_accepts": 0.0,
+        "wrong_rejects": 0.0,
+        "abstentions": 0.0,
+        "cost": 24.0,
+        "coverage": 1.0,
+        "mean_cost": 4.0,
+        "error_among_decisions": 0.0
+      },
+      {
+        "policy": "cautious_stress",
+        "artifacts": 6,
+        "wrong_accepts": 0.0,
+        "wrong_rejects": 0.0,
+        "abstentions": 4.0,
+        "cost": 6.0,
+        "coverage": 0.3333333333333333,
+        "mean_cost": 1.0,
+        "error_among_decisions": 0.0
+      },
+      {
+        "policy": "abstain",
+        "artifacts": 6,
+        "wrong_accepts": 0.0,
+        "wrong_rejects": 0.0,
+        "abstentions": 6.0,
+        "cost": 0.0,
+        "coverage": 0.0,
+        "mean_cost": 0.0,
+        "error_among_decisions": null
+      }
+    ],
+    "bar_displacement": [
+      {
+        "policy": "fixed_stress",
+        "artifacts": 6,
+        "wrong_accepts": 1.0,
+        "wrong_rejects": 0.0,
+        "abstentions": 0.0,
+        "cost": 6.0,
+        "coverage": 1.0,
+        "mean_cost": 1.0,
+        "error_among_decisions": 0.16666666666666666
+      },
+      {
+        "policy": "random",
+        "artifacts": 6,
+        "wrong_accepts": 1.5,
+        "wrong_rejects": 0.0,
+        "abstentions": 0.0,
+        "cost": 6.0,
+        "coverage": 1.0,
+        "mean_cost": 1.0,
+        "error_among_decisions": 0.25
+      },
+      {
+        "policy": "sensitivity",
+        "artifacts": 6,
+        "wrong_accepts": 1.0,
+        "wrong_rejects": 0.0,
+        "abstentions": 0.0,
+        "cost": 6.0,
+        "coverage": 1.0,
+        "mean_cost": 1.0,
+        "error_among_decisions": 0.16666666666666666
+      },
+      {
+        "policy": "all_checks",
+        "artifacts": 6,
+        "wrong_accepts": 0.0,
+        "wrong_rejects": 0.0,
+        "abstentions": 0.0,
+        "cost": 24.0,
+        "coverage": 1.0,
+        "mean_cost": 4.0,
+        "error_among_decisions": 0.0
+      },
+      {
+        "policy": "cautious_stress",
+        "artifacts": 6,
+        "wrong_accepts": 0.0,
+        "wrong_rejects": 0.0,
+        "abstentions": 4.0,
+        "cost": 6.0,
+        "coverage": 0.3333333333333333,
+        "mean_cost": 1.0,
+        "error_among_decisions": 0.0
+      },
+      {
+        "policy": "abstain",
+        "artifacts": 6,
+        "wrong_accepts": 0.0,
+        "wrong_rejects": 0.0,
+        "abstentions": 6.0,
+        "cost": 0.0,
+        "coverage": 0.0,
+        "mean_cost": 0.0,
+        "error_among_decisions": null
+      }
+    ]
+  },
+  "provenance": {
+    "studies/evidence_sufficiency/spec.json": "4f7b60e6707f2e6f15405ca6509dd6205b348d6617195f1dbc6f6d9753d764df",
+    "studies/evidence_sufficiency/artifact.py": "d00906627a82e877744acffa18b3a1efafbee8c9183a3de9d6a9a8a66052d843",
+    "studies/evidence_sufficiency/plot.py": "902aeb059d28f5ef10bbc512ad543edced823a171663de0869fe8f5e8ed8f662",
+    "studies/evidence_sufficiency/policies.py": "70d4bb68067b3784df5795ba988eed290adb858468b31d20c71bb168f46edee9",
+    "studies/evidence_sufficiency/reference.py": "28352c707eb8f768529d61f776addeb8d826583210b886a5fdecf048708d0ef3",
+    "studies/evidence_sufficiency/run.py": "a430de986529f6854fed26836f05747578cfd8809158fe8b533d2454a569ca8c"
+  }
+}

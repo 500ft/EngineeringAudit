@@ -7,12 +7,11 @@ are not yet implemented are not read as working.
 
 ## Purpose in this repository
 
-`ROADMAP.md` scopes CAD/FEA capability as a way to harden ground truth: author
-benchmark cases whose correct answer is confirmed by a model rather than by hand
-analytics alone. The loop is that authoring path. It is deliberately separate
-from the verifier: `engineering-audit` checks calculations that a language model
-produced, while `cadloop` produces geometry and measurements that a future case
-can cite as its reference.
+The active [ROADMAP](../ROADMAP.md) studies evidence sufficiency. CAD/FEA
+machinery is retained for future independently qualified artifacts. Its
+historical measurements are not automatically answer keys for new properties.
+The [current FEA interpretation](../cadloop/fea/README.md) supersedes older
+completion-only descriptions below.
 
 ## Stages
 
@@ -36,8 +35,8 @@ flowchart LR
 | Parametric build | `worker.py` sets only declared global variables, forces a full rebuild, walks every feature's error code | Implemented |
 | Oracle gate | measured mass properties compared against a closed-form oracle within tolerance | Implemented |
 | STEP export and preview | non-empty STEP file, a non-empty IGES file, and an isometric image, all verified to exist | Implemented |
-| FEA run | IGES imported into MAPDL, meshed as a solid, solved, displacement and stress returned as measurements | Implemented for the plate fixture; no oracle |
-| Result package and review | `result.json`, STEP, preview retrieved to `cadloop/runs/<job_id>/` | Implemented for the CAD half; FEA results are not yet retrieved by an equivalent orchestrator |
+| FEA run | IGES imported into MAPDL, meshed as a solid, solved, displacement and stress returned as measurements | Implemented for the plate fixture, with an approximate stress-reference comparison |
+| Result package and review | `result.json`, STEP, preview retrieved to `cadloop/runs/<job_id>/` | CAD artifacts retrieved; `run_fea.py` also writes local FEA results and contours |
 | Feedback to a new job | owner edits parameters and reruns | Implemented |
 
 ## Why the gate is the oracle and not the rebuild
@@ -88,7 +87,7 @@ preview both retrieved to local disk. See
 [`cadloop/evidence/parametric-redrive-2026-09-18.json`](../cadloop/evidence/parametric-redrive-2026-09-18.json).
 This was the loop's first acceptance test; it is no longer open.
 
-## FEA stage: first solve recorded
+## Historical FEA stage: first solve recorded
 
 [`cadloop/fea/`](../cadloop/fea/README.md) imports the plate job's IGES export
 into MAPDL, builds a volume from its 8 surfaces (IGES import has no volume of
@@ -106,8 +105,8 @@ and
 
 This is a solve, not a validated one: no oracle checks the stress or
 displacement value, so `status: ok` here means the solve completed and
-produced finite results, not that the results are correct. See
-`cadloop/fea/README.md` for what the stage does not yet do.
+produced finite results, not that the results are correct. Later runs added a reference comparison; see the corrected
+[FEA interpretation](../cadloop/fea/README.md) for current scope.
 
 ## Not yet established
 

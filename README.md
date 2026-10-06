@@ -1,112 +1,72 @@
 # engineering-audit
 
 [![CI](https://github.com/500ft/engineering-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/500ft/engineering-audit/actions/workflows/ci.yml)
-[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-276c6b)](LICENSE)
 
-A Python CLI and benchmark suite for checking formulas, units, assumptions,
-arithmetic, and reasoning in LLM-generated mechanical-engineering calculations.
+Can an automated reviewer recognize when passing evidence cannot verify a
+claimed property, and select checks that resolve the uncertainty?
 
-**[Quick start](#quick-start) · [Benchmark results](reports/benchmark-results.md) · [Data and reports](docs/data-and-figures.md) · [Limitations](LIMITATIONS.md)**
+The first executed evidence-sufficiency example covers a linear elastic axial
+bar under prescribed force and prescribed displacement. Stress is blind to an
+incorrect elastic modulus under force loading and sensitive under displacement
+loading. Correct controls, benign mesh partitions, a nuisance density change,
+and seeded parameter faults are checked against an independent analytic answer
+and a separately assembled stiffness model.
 
-## Overview
+![Computed stress comparison](reports/evidence-sufficiency/boundary-condition.png)
 
-engineering-audit loads a structured benchmark case, independently recomputes
-supported mechanics quantities, extracts the model's reported work, and returns
-detected failure modes. The evaluator compares that detected set with the case
-annotation so verifier regressions can fail CI.
+Verification example, not physical validation. The figure reads the executed
+[results](reports/evidence-sufficiency/results.json); dimensions, units, loads,
+perturbations and check costs live in the [specification](studies/evidence_sufficiency/spec.json).
+See the [computed outcome matrix and comparator table](reports/evidence-sufficiency/matrix.md)
+and [derivation and evidence boundary](studies/evidence_sufficiency/README.md).
+This is one mechanics family with two loading configurations, not a completed
+multi-problem benchmark or evidence of general reviewer performance.
 
-```mermaid
-flowchart LR
-    C[Benchmark case] --> L[Schema and unit loader]
-    L --> R[Independent calculation]
-    L --> X[Reported-answer extraction]
-    R --> A[Domain checks]
-    X --> A
-    A --> M[Detected modes]
-    M --> E[Compare with annotation]
-    M --> P[Markdown audit report]
-```
-
-The current implementation covers thin-wall pressure vessels, axial stress,
-cantilever controls, and finite-width stress concentration. It is a
-domain-bounded verifier, not a general proof checker or a benchmark of overall
-model capability.
-
-A second subsystem, [`cadloop/`](cadloop/README.md), builds parametric CAD on a
-SOLIDWORKS host and gates each build on a closed-form volume oracle before
-exporting STEP. Its purpose is to author reference geometry whose measurements a
-benchmark case can cite, rather than relying on hand analytics alone. The FEA
-stage of that loop is not yet implemented; see
-[`docs/cad_fea_loop.md`](docs/cad_fea_loop.md).
-
-## Quick start
+## Reproduce
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install -e ".[test]"
-```
-
-Audit one case:
-
-```bash
-engineering-audit audit benchmark/synthetic/syn-fm01-0001.md \
-  --output reports/syn-fm01-0001.md
-```
-
-Run the benchmark and test suite:
-
-```bash
-engineering-audit eval benchmark/ --report reports/benchmark-results.md
+python -m pip install -e '.[test]'
+python -m studies.evidence_sufficiency.run
+python -m cadloop.fea.interpret
 pytest
+engineering-audit eval benchmark/
 ```
 
-`eval` exits nonzero if a complete case cannot load or if detected and expected
-failure-mode sets differ. Pending cases are reported as skipped. The meaning of
-the counts, case provenance, and report generation path are documented in
-[`docs/data-and-figures.md`](docs/data-and-figures.md).
+The first two module commands are local calculations and record interpretation;
+they do not contact a model or a CAD host. To regenerate the figure, install
+`matplotlib` and run `python -m studies.evidence_sufficiency.plot`.
 
-## CLI
+## Existing tools and evidence
 
-| Command | Purpose |
-| --- | --- |
-| `engineering-audit audit CASE` | Audit one benchmark case and optionally write a Markdown report |
-| `engineering-audit eval PATH` | Evaluate all cases under a directory and optionally write the aggregate table |
-| `engineering-audit capture` | Store a prompt, raw response, metadata, and SHA-256 digests without contacting a model |
+The calculation verifier and its capture store remain useful regression assets.
+It checks formulas, units and supported assumptions in structured engineering
+answers. The [legacy evaluator report](reports/benchmark-results.md) measures
+agreement with case annotations; a passing failure case means its error was
+detected. It is separate from the new evidence-sufficiency matrix.
 
-## Documentation
-
-| Document | Purpose |
-| --- | --- |
-| [`reports/benchmark-results.md`](reports/benchmark-results.md) | Current case-by-case evaluator output |
-| [`docs/data-and-figures.md`](docs/data-and-figures.md) | Benchmark provenance, calculations, reports, and diagram lineage |
-| [`docs/figure-manifest.json`](docs/figure-manifest.json) | Machine-readable map for documentation diagrams |
-| [`benchmark/README.md`](benchmark/README.md) | Case layout, naming, and review checklist |
-| [`docs/failure_taxonomy.md`](docs/failure_taxonomy.md) | Failure-mode definitions and detection rules |
-| [`docs/schema_contract.md`](docs/schema_contract.md) | Structured case schema |
-| [`docs/tolerance_policy.md`](docs/tolerance_policy.md) | Numeric comparison policy |
-| [`docs/capture_provenance.md`](docs/capture_provenance.md) | Capture tiers, metadata, and digest rules |
-| [`docs/real_case_classification_rubric.md`](docs/real_case_classification_rubric.md) | Captured-case classification process |
-| [`docs/cad_fea_loop.md`](docs/cad_fea_loop.md) | CAD build-and-validate loop: stages, contracts, gates, and unimplemented stages |
-| [`docs/solidworks_api_findings.md`](docs/solidworks_api_findings.md) | Host API behaviour the CAD loop works around |
-| [`docs/host_setup.md`](docs/host_setup.md) | Bringing a Windows SOLIDWORKS host up from nothing, with the traps |
-| [`docs/cad_agent_briefing.md`](docs/cad_agent_briefing.md) | What the CAD/FEA setup can do and how to use it without repeating known mistakes |
-| [`cadloop/README.md`](cadloop/README.md) | CAD loop layout, host requirements, and use |
-| [`LIMITATIONS.md`](LIMITATIONS.md) | Supported scope and interpretation limits |
-
-## Repository map
-
-```text
-engineering_audit/  CLI, loader, calculations, checks, capture, report writer
-cadloop/            parametric CAD builds, oracle gate, and STEP export
-benchmark/          synthetic, reference-control, captured, and pending cases
-captures/           prompts, raw responses, metadata, hashes, and session notes
-docs/               schema, taxonomy, tolerance, provenance, and data lineage
-reports/            aggregate and single-case audit outputs
-tests/              calculations, mutations, schema, provenance, CLI, oracle
+```bash
+engineering-audit audit benchmark/synthetic/syn-fm01-0001.md --output /tmp/audit.md
+engineering-audit eval benchmark/ --report /tmp/benchmark-results.md
 ```
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) before adding a domain or failure mode.
-engineering-audit uses the [MIT License](LICENSE); third-party notices are in
-[`NOTICE`](NOTICE).
+The [CAD/FEA machinery](cadloop/README.md) includes parametric re-drive, IGES
+import, MAPDL static solves and a stress-reference comparison. Solver completion,
+reference agreement and mesh convergence are separate facts. The preserved
+global sweep is not converged under the declared stability criterion. Later
+hole-refined records show close peaks but do not establish systematic refinement
+convergence. See the [offline interpretation](reports/fea-interpretation.json)
+and [FEA scope](cadloop/fea/README.md). No new host run was made for this pivot.
+
+## Navigation
+
+- [Roadmap and finish line](ROADMAP.md)
+- [Decision and open questions](docs/OPEN_QUESTIONS.md)
+- [Result index and reproduction](docs/data-and-figures.md)
+- [Limitations](LIMITATIONS.md)
+- [Preserved research and CAD history](docs/history/README.md)
+- [Legacy benchmark schema](docs/schema_contract.md), [taxonomy](docs/failure_taxonomy.md), [provenance](docs/capture_provenance.md)
+- [CAD agent briefing](docs/cad_agent_briefing.md), [host setup](docs/host_setup.md)
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). License: [LICENSE](LICENSE).

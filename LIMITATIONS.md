@@ -35,7 +35,8 @@ implemented families.
 
 Expected results trace to standard closed-form solutions (with the tolerance
 policy in `docs/tolerance_policy.md`) and, for stress concentration, to
-Peterson/Roark Kt fits validated against the in-repo FEA work. There is no
+Peterson/Roark Kt fits. In-repo FEA provides an approximate comparison, not
+independent validation of those fits. There is no
 physical-test ground truth anywhere in the benchmark. Where a problem admits
 defensible variant conventions (inner-radius vs mean-radius), the rubric
 accepts the variant rather than forcing one number.
@@ -55,28 +56,27 @@ probabilities.
 unit system (SI). Per-model comparisons ("model X fails where model Y passes")
 are existence results, not statistics.
 
-## 6. The CAD loop builds and measures; it does not yet simulate
+## 6. CAD and FEA exist, with separate evidence boundaries
 
-`cadloop/` drives a parametric SOLIDWORKS template, gates the result against a
-closed-form volume oracle, and exports STEP. The FEA stage is not implemented:
-no committed run imports a STEP file into a solver, and no stress or
-displacement number in this repository came from that loop.
+`cadloop/` records parametric re-drive, volume checks, STEP/IGES exports and
+MAPDL linear static plate solves. The [original records](cadloop/evidence/README.md)
+and [FEA runs](cadloop/fea/runs) remain unchanged. The latest runner includes a
+stress-reference comparison and contour rendering. No host run was performed
+for this correction.
 
-- Supported claim: *"Parametric CAD builds are produced on a licensed host and
-  accepted only when measured mass properties match a closed-form oracle within
-  tolerance."*
-- Unsupported claim: *"The loop validates designs by FEA"* — and, for now,
-  *"the loop re-drives a template to new parameters"*: the oracle gate is in
-  place, but no recorded run shows a second parameter set measuring its own
-  expected volume. An earlier run reported success while returning the
-  template's original volume, which is why the gate exists.
+The [derived interpretation](reports/fea-interpretation.json) separates solver
+completion, agreement with the declared correlation tolerance, and mesh stability.
+The global sweep's final peak change exceeds the reporting criterion. The
+hole-refined records each contain one mesh; their close peaks under different
+global and local mesh settings do not establish systematic convergence. The
+retrospective stability criterion is not a discretization error bound.
 
-Coverage is one plate fixture in one configuration. The gate constrains volume
-only, so a correctly sized feature in the wrong location passes it. Host open
-latency is unstable and unexplained (seconds to over thirteen minutes for the
-same call), so throughput claims are not supportable. Details and the full
-finding list are in [`docs/cad_fea_loop.md`](docs/cad_fea_loop.md) and
-[`docs/solidworks_api_findings.md`](docs/solidworks_api_findings.md).
+A scalar stress match cannot establish material correctness, displacement
+accuracy, all boundary conditions or physical validity. The reference correlation
+and finite restrained solid have different modeling assumptions. The historical
+load is arbitrary, so its yield ratio cannot establish service readiness. Volume
+alone does not constrain feature location, and host timing remains unstable.
+See [FEA scope](cadloop/fea/README.md) and [CAD loop](docs/cad_fea_loop.md).
 
 ## 7. The verifier is narrow by design
 
@@ -84,3 +84,14 @@ Checks are limited to what is independently recomputable. engineering-audit does
 not judge modeling choices, load-case selection, or safety-factor policy — the
 places where real engineering judgment lives. A calculation can pass every
 engineering-audit check and still be the wrong calculation for the design.
+
+## 8. Evidence-sufficiency pilot scope
+
+The [new result](reports/evidence-sufficiency/matrix.md) uses seeded artifacts in
+one analytic family with different loading conventions. It is a verification
+example, not physical validation or a completed independent-problem benchmark.
+Check costs are declared abstract tokens. Labels are cross-checked by a separate
+stiffness assembly, but no second human review is claimed. The published matrix
+is development data; no hidden-family evaluation or natural LLM pilot was run.
+The selected faults illustrate sensitivity and cannot establish a general policy
+ranking. See [the protocol](studies/evidence_sufficiency/README.md).

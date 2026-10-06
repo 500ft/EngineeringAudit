@@ -11,11 +11,10 @@ evidence this pipeline produces. A solve that converged on the wrong boundary
 conditions, the wrong units or a mesh that never resolved the hole produces a
 plausible, colourful, wrong image every time. So the images are rendered *and*
 the peak stress at the hole is compared against Howland's finite-width plate
-solution. The picture shows where the stress is; the oracle is what says the
-number is right.
+solution. The picture shows the computed field; reference agreement is only one check.
 
 Why a mesh sweep rather than one solve: peak stress at a stress raiser is
-mesh-dependent and converges from below. A single mesh cannot distinguish "the
+mesh-dependent and need not converge monotonically. A single mesh cannot distinguish "the
 model is right" from "the mesh was too coarse to see the peak". The sweep makes
 that visible instead of hiding it, and ANSYS Student's 128k node ceiling is what
 bounds the finest mesh.
@@ -31,6 +30,11 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+
+try:
+    from .interpret import interpret
+except ImportError:  # direct script invocation
+    from interpret import interpret
 
 CONFIG_PATH = Path(os.environ.get("CADLOOP_HOST_CONFIG",
                                  os.path.expanduser("~/.config/sw_pc_credentials.json")))
@@ -57,12 +61,8 @@ STUDENT_NODE_LIMIT = 128_000
 HOLE_BAND_MARGIN_MM = 4.0
 END_EXCLUSION_MM = 8.0
 
-# The correlation assumes a long plate under uniform far-field tension with free
-# lateral edges. This model fixes one end face completely, which restrains Poisson
-# contraction, and the plate is only 1.6 widths long, so the far field is not fully
-# developed. Both push the measured peak *below* the correlation, and the measured
-# bias has been about 8% on two independent geometries. The tolerance admits that
-# known bias; it is not tight enough to call this a validation of the solver.
+# Historical correlation tolerance; agreement does not establish mesh stability
+# or remove differences between a finite 3D restrained plate and the 2D reference.
 KT_TOLERANCE_REL = 0.12
 
 
@@ -92,12 +92,10 @@ def kt_plate_central_hole(hole_d_mm: float, width_mm: float) -> float:
     """Heywood/Howland: finite-width plate, central hole, uniaxial tension.
 
     Referenced to the **net-section** nominal stress, P/((W-d)t) -- not the gross
-    section. Getting this backwards is the easy mistake and it is worth being
-    explicit about why this is the net-section form: referenced to gross stress,
-    Kt must *rise* without bound as d/W -> 1, because the ligaments carrying the
-    load vanish while the gross area does not change. This series *falls* with
-    d/W, so it cannot be gross-referenced. Both conventions coincide at d/W -> 0,
-    where the value is Kirsch's 3.0, so that limit cannot distinguish them.
+    section. This is the convention declared for the implemented correlation.
+    The small-hole limit is a sanity check but cannot distinguish net and gross
+    conventions. Extrapolation beyond the stated domain does not prove a source
+    convention; this function is not a qualification of the empirical fit.
 
     Valid to d/W = 0.5. Use `peak_stress_mpa` rather than this factor directly.
     """
@@ -393,7 +391,7 @@ def main() -> int:
             "linear elastic, so stress scales exactly with the traction, and 1 MPa "
             "makes the peak stress read directly as the stress-concentration factor."),
         "not_a_service_load": (
-            "This validates the pipeline, not the part. No duty cycle, mounting "
+            "This is a pipeline verification example. No duty cycle, mounting "
             "arrangement or real force for this plate has been established, so the "
             "factor of safety below is the factor against this arbitrary 1 MPa and "
             "says nothing about whether the part survives anything real."),
@@ -491,6 +489,7 @@ def main() -> int:
         report["message"] = "%s: %s" % (type(error).__name__, error)
         report["traceback"] = traceback.format_exc()
     finally:
+        report["evidence"] = interpret(report)
         # The host process is not owned here beyond this run, but leaving a
         # licensed solver holding a seat is worse than a slow exit.
         try:
