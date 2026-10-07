@@ -1,85 +1,54 @@
-# Roadmap — engineering-audit
+# Roadmap: evidence sufficiency
 
-_Last updated: 2026-06-23 · Horizon: 8 weeks (through ~2026-08-23)_
+Updated 2026-10-06. This is the repository's active plan.
 
-## Role in the portfolio
+## Adopted question
 
-**Industry / shipping anchor.** A differentiated AI x mechanical-engineering
-tool that proves software discipline (CLI, CI, tests, mutation testing) and an
-unusual niche. This is the "I ship real software/AI tooling" proof for the
-part-time industry track.
+Can an automated reviewer recognize when passing evidence cannot verify the
+claimed property, and select checks that resolve it within a fixed budget?
 
-## Where it is now
+The owner authorized this bounded software implementation on 2026-10-06.
+[The decision record](docs/OPEN_QUESTIONS.md) limits adoption to this question
+and records superseded work. Physical readiness and model spending are not part
+of that decision.
 
-Working verifier that detects errors in LLM-generated engineering calculations
-(thin-wall pressure vessel + axial stress): CLI, CI, 24 tests, convention-aware
-calculations, synthetic failure cases + reviewer-synthesized controls, mutation
-tests proving detection is computed (not label-matched).
+## Executed current step
 
-## The make-or-break gap
+The [first result](reports/evidence-sufficiency/matrix.md) is a development
+verification example for a uniform axial bar under force and displacement
+loading. The full check menu was executed for every artifact. Independent
+closed-form answers and a separately assembled stiffness system check labels
+before any selector is scored. Correct controls, benign partition changes,
+nuisance density changes and seeded faults are included. The comparator smoke
+test isolates policy inputs and reports errors, abstention and cost at matched
+coverage. It makes no claim of policy superiority on unseen defects.
 
-The benchmark is still **synthetic** — the verifier has not yet caught a
-**genuine** model failure in the wild with verbatim, provenance-tracked raw
-output. Retiring that single credibility risk is the whole game this summer.
+The [FEA correction](reports/fea-interpretation.json) separates completion,
+reference agreement and mesh stability using preserved original records. CAD
+machinery and previous calculation-verifier results remain accessible through
+[history](docs/history/README.md).
 
-## Plan
+## Finish line and remaining work
 
-The detailed week-by-week schedule already lives in
-[`docs/v1_plan.md`](docs/v1_plan.md) (June 22 -> July 31) and is the source of
-truth. This file is the portfolio-facing summary. Execute v1_plan verbatim. Key
-gated outcomes:
+A benchmark result needs independently qualified problem specifications,
+predeclared check costs, a complete outcome matrix, and a frozen evaluation
+protocol with whole defect families held out before selection-policy tuning.
+Report errors at matched coverage and cost, and coverage at matched error;
+keep seeded and natural failures separate and cluster any uncertainty by base
+problem. Two loading configurations of one bar are not independent base problems.
 
-- [ ] **Wk 1:** schema 0.3.0 provenance enforcement (Gold/Silver/Deprecated
-  tiers; `SourceRecord` with hashes). *Done — merged.*
-- [ ] **Wk 2:** >=5 Gold/Silver real captures with immutable hashed artifacts;
-  **>=2 genuine detected model failures.** Pre-register prompts/models/runs;
-  keep every run including passes.
-- [ ] **Wk 3:** mode-structured benchmark — >=28 complete cases (>=4 positives x
-  5 modes + >=8 controls); count-based denominators, not bare percentages.
-- [ ] **Wk 4:** close verifier gaps exposed by the frozen benchmark (unit
-  conversion before comparison; omitted-assumption detection; `P-01`
-  diagnostics).
-- [ ] **Wk 5:** `engineering-audit eval benchmark/ --report out/` batch command,
-  CI-gated on regressions.
-- [ ] **Wk 6:** independent recompute review + `LIMITATIONS.md`; tag **v1.0.0**.
+Next: qualify a genuinely different analytic family with a separate derivation
+and implementation, then grow toward the v2 target only where reference validity
+and coverage justify it. A NAFEMS or Code_Aster case needs the exact geometry,
+constraints, load, stress component and reference rights/source checked first.
+A published scalar alone is insufficient. No such case is claimed here.
 
-## CAD/FEA-validated ground truth (additive)
+Before a confirmatory result, freeze reserved defect families and opaque reviewer
+inputs. The published development matrix cannot serve as a hidden evaluation
+set. Candidate LLM policies remain optional until references and the holdout
+protocol are independently reviewed; no model calls or recruitment are planned
+in this task. If a fixed checklist matches the candidate on held-out families,
+report that result. If labels disagree, stop policy evaluation and fix references.
 
-This does **not** change the make-or-break priority — capturing >=2 genuine wild
-model failures with provenance-tracked, hashed raw artifacts is still the whole
-game. It only strengthens the ground truth those failures are judged against.
-
-**Status.** The build-and-measure half is implemented in [`cadloop/`](cadloop/README.md):
-a parametric plate template on a licensed SOLIDWORKS host, driven over COM,
-gated on a closed-form volume oracle, exporting STEP and a preview. Open items,
-in the order they block the rest:
-
-- [x] Record a parametric re-drive: one template, a second parameter set,
-      measuring its own expected volume. Recorded 2026-09-18; see
-      `cadloop/evidence/parametric-redrive-2026-09-18.json`.
-- [ ] Anchor the profile sketch to the origin; `SketchAddConstraints` returns
-      false during authoring, leaving the sketch under-defined.
-- [ ] Add a gate that constrains feature position, not only volume.
-- [x] Implement the FEA stage (IGES import, solve, measurements returned).
-      Recorded 2026-09-18 for the plate fixture; no FEA-side oracle yet. See
-      `cadloop/fea/README.md`.
-- [ ] Explain or bound the unstable `OpenDoc6` latency.
-
-The author can do CAD and FEA, which is used to:
-
-- **Harden the Wk-3 mode-structured benchmark.** Author harder ground-truth
-  cases whose correct answer is confirmed by an FEA model — stress
-  concentration, beam/plate bending, buckling, contact — beyond the closed-form
-  thin-wall/axial family. Lets the benchmark claim that positives and controls
-  are validated against FEA, not only hand analytics.
-- **Seed a future verifier-coverage expansion.** Scope checks for FEA-class
-  problems where no closed-form oracle exists: mesh-independence sanity,
-  boundary-condition plausibility, and load-path/unit consistency. Tracked as a
-  later coverage item, gated behind the core capture work above.
-
-## Portfolio statement
-
-> Built a reproducible, CI-gated verifier that detects errors in LLM-generated
-> engineering calculations, with provenance-tracked real-model failure captures
-> (hashed raw artifacts) and mutation-tested detection logic; released v1.0.0
-> with explicit scope limitations.
+The old wild-capture schedule is superseded, not completed. See
+[its preserved roadmap](docs/history/roadmap-before-v2-2026-10-06.md).

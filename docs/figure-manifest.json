@@ -1,24 +1,32 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "project": "engineering-audit",
   "figures": [
     {
-      "id": "readme-audit-pipeline",
-      "evidence_type": "architecture diagram",
-      "generator": null,
-      "renderer": "GitHub Mermaid",
-      "command": null,
-      "inputs": ["README.md"],
-      "outputs": ["runtime:README audit-pipeline diagram"]
+      "id": "boundary-condition-modulus",
+      "status": "current",
+      "evidence_type": "computed analytic verification example, not physical validation",
+      "generator": "studies/evidence_sufficiency/plot.py",
+      "command": "python -m studies.evidence_sufficiency.plot",
+      "inputs": ["reports/evidence-sufficiency/results.json", "studies/evidence_sufficiency/spec.json"],
+      "outputs": ["reports/evidence-sufficiency/boundary-condition.png"],
+      "units": {"vertical_axis": "MPa"},
+      "caption": "Correct and half-modulus stress under prescribed force and prescribed displacement; all configuration and outcome provenance is in the linked input files."
     },
     {
-      "id": "data-provenance-pipeline",
-      "evidence_type": "provenance diagram",
-      "generator": null,
-      "renderer": "GitHub Mermaid",
-      "command": null,
-      "inputs": ["docs/data-and-figures.md"],
-      "outputs": ["runtime:data-and-figures provenance diagram"]
+      "id": "legacy-cad-contours-and-deformation",
+      "status": "history",
+      "evidence_type": "visualization of original numerical solves, not independent evidence",
+      "inputs": ["cadloop/fea/runs"],
+      "index": "docs/history/README.md"
+    },
+    {
+      "id": "legacy-audit-pipeline",
+      "status": "superseded",
+      "evidence_type": "architecture diagram of the earlier calculation verifier",
+      "source_commit": "6e55653",
+      "inputs": ["README.md", "docs/data-and-figures.md"],
+      "index": "docs/history/README.md"
     }
   ]
 }

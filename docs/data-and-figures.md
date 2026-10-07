@@ -1,122 +1,43 @@
-# Benchmark data, reports, and diagrams
+# Results, data and figure index
 
-This document explains how benchmark cases are created, how audit results are
-computed, what the evaluator counts, and how the repository's documentation
-diagrams are rendered.
+## Current evidence-sufficiency result
 
-```mermaid
-flowchart LR
-    subgraph Case sources
-      SYN[Synthetic mutations and controls]
-      RAW[Captured raw model output]
-      REV[Deprecated reviewer synthesis]
-      PEN[Pending capture slots]
-    end
-    SYN --> CASE[Structured benchmark case]
-    RAW --> CASE
-    REV --> CASE
-    PEN --> CASE
-    CASE --> LOAD[Schema and provenance checks]
-    LOAD --> CALC[Independent mechanics calculations]
-    LOAD --> EXTRACT[Reported values and reasoning]
-    CALC --> CHECK[Failure-mode checks]
-    EXTRACT --> CHECK
-    CHECK --> REPORT[Single-case or aggregate Markdown]
-```
+| Artifact | Meaning | Reproduction |
+| --- | --- | --- |
+| [Specification](../studies/evidence_sufficiency/spec.json) | Single home for dimensions, loading, perturbations, comparison tolerances and acquisition costs | Inputs to the runner |
+| [Numeric result](../reports/evidence-sufficiency/results.json) | Full development outcome matrix, truth, source hashes, policy and per-configuration scores | `python -m studies.evidence_sufficiency.run` |
+| [Table](../reports/evidence-sufficiency/matrix.md) | Generated human-readable outcomes and scores | Same command |
+| [Figure](../reports/evidence-sufficiency/boundary-condition.png) | Computed stress in MPa for correct and half-modulus cases under both loading conventions | `python -m studies.evidence_sufficiency.plot` with matplotlib installed |
+| [FEA interpretation](../reports/fea-interpretation.json) | Completion, correlation agreement and convergence separated, with original record hashes | `python -m cadloop.fea.interpret` |
 
-## Evidence and provenance classes
+The figure is a verification example, not physical validation. Configuration
+and source provenance are linked above; no decorative or generated artwork is
+used. The table and figure derive their numbers from the executed matrix.
+[Protocol and derivation](../studies/evidence_sufficiency/README.md) explain the
+independent reference and what selectors can observe.
 
-| Class | Role |
-| --- | --- |
-| Synthetic positive | Hand-authored response mutation intended to isolate one implemented failure mode |
-| Synthetic control | Analytically checked case with no expected failure mode |
-| Gold captured case | Stored model response with immutable raw artifact and matching SHA-256 digest |
-| Deprecated reviewer synthesis | Older response fixture without raw model provenance; retained as a control but not counted as captured model evidence |
-| Pending capture | Reserved case excluded from evaluation until its required content and provenance exist |
+## Preserved calculation-verifier benchmark
 
-The case schema stores source type, lifecycle status, provenance tier, prompt,
-response, expected result, tolerances, formulas, inputs, and annotated failure
-modes. See [`schema_contract.md`](schema_contract.md) and
-[`capture_provenance.md`](capture_provenance.md).
-
-## Current benchmark composition
-
-| Group | Complete | Pending | Expected detected modes |
-| --- | ---: | ---: | --- |
-| Synthetic cases | 7 | 0 | Five single-mode positives and two no-failure controls |
-| Gold captured stress-concentration cases | 7 | 0 | `FM-04` |
-| Deprecated reviewer-synthesized pressure-vessel controls | 3 | 0 | None |
-| Pressure-vessel capture slots | 0 | 2 | Not assigned |
-
-The capture store contains 30 challenge-protocol raw runs: 10 Claude Haiku and
-20 Codex runs. Seven stress-concentration outputs are promoted to complete Gold
-benchmark cases. A stored run and a promoted benchmark case are different
-counts; not every capture becomes a case.
-
-## Audit calculation path
-
-`engineering_audit/case_loader.py` parses the fenced JSON case record, validates
-schema and provenance requirements, and converts declared units. Domain
-calculators under `engineering_audit/` independently recompute supported
-reference quantities. Checks compare those quantities, formulas, assumptions,
-and extracted reasoning with the submitted answer using
-[`tolerance_policy.md`](tolerance_policy.md).
-
-For a complete case, `passed` means the computed detected-mode set equals the
-annotated expected-mode set. It does not mean the original model answer was
-correct: a correctly detected failure case also produces a benchmark PASS.
-
-## Aggregate results
-
-Regenerate [`reports/benchmark-results.md`](../reports/benchmark-results.md):
+[benchmark-results.md](../reports/benchmark-results.md) is the numeric result
+home for the earlier annotated-case evaluator. Reproduce without changing the
+committed historical report:
 
 ```bash
-engineering-audit eval benchmark/ --report reports/benchmark-results.md
-```
-
-The current aggregate is 17 passed, 0 failed, and 2 skipped. The denominator is
-the committed benchmark, not a representative sample of mechanical-engineering
-questions. All seven captured failures exercise `FM-04`, so the result does not
-measure captured-model detection for the other implemented modes.
-
-Run the software regression suite separately:
-
-```bash
+engineering-audit eval benchmark/ --report /tmp/engineering-audit-benchmark.md
 pytest
 ```
 
-The current suite contains 83 tests across calculations, unit handling,
-synthetic mutations, real-world cases, capture hashes, schema rules, reports,
-and CLI behavior.
+For a complete case, `passed` means detected failure modes match annotations.
+A correctly detected faulty answer is therefore a benchmark PASS. It does not
+mean the answer itself was correct. Pending capture cases remain excluded.
+The challenge-protocol captures are elicited outputs; they do not establish
+wild-usage performance. See [provenance](capture_provenance.md),
+[schema](schema_contract.md), and [limitations](../LIMITATIONS.md).
 
-## Single-case reports
-
-```bash
-engineering-audit audit benchmark/real_world/rw-stress-concentration-claude-haiku-0001.md \
-  --output reports/rw-stress-concentration-claude-haiku-0001.md
-```
-
-The report writer records the case source, expected and detected failure modes,
-recomputed quantities, individual check results, and diagnostics. The two
-committed example reports are generated text, not separate experiments.
-
-## Capture data
-
-`engineering-audit capture` does not call a model. It packages an already
-recorded prompt and response with model metadata, run settings, timestamps, raw
-artifact paths, and digests. `source.json` is the manifest for a run. Tests
-recompute the hashes and require promoted real-world cases to point to their own
-matching raw artifact.
-
-Capture commands, model metadata, and session context are under `captures/`.
-The challenge protocol is not intended to represent ordinary user traffic.
-
-## Documentation diagrams
-
-The audit and capture pipeline diagrams are Mermaid source embedded in Markdown
-and rendered by GitHub. They explain control flow and provenance; they are not
-plots of benchmark measurements. The repository currently has no static chart
-or image output.
-
-See [`figure-manifest.json`](figure-manifest.json) for their machine-readable
-lineage.
+[History](history/README.md) indexes original captures, dated CAD/FEA records,
+old figures and the superseded research schedule at their stable paths.
+The previous pipeline diagram was removed from the current README because it
+described the earlier evaluator question; its source remains in Git history.
+[Figure manifest](figure-manifest.json) records the active figure and historical
+visualizations. There is no manuscript in this repository; current claims are
+in README, ROADMAP, LIMITATIONS and the linked result documentation.

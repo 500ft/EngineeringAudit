@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "scope": "Development verification example: one analytic family, two loading configurations; no holdout or natural model failures",
+  "units": {"length": "mm", "area": "mm^2", "modulus": "MPa", "force": "N", "stress": "MPa", "displacement": "mm", "density": "kg/m^3"},
+  "relative_tolerance": 1e-8,
+  "absolute_tolerance": 1e-10,
+  "cases": [
+    {"id": "bar_force", "loading": "force", "length": 100, "area": 20, "modulus": 200000, "force": 1000, "density": 7800},
+    {"id": "bar_displacement", "loading": "displacement", "length": 100, "area": 20, "modulus": 200000, "displacement": 0.025, "density": 7800}
+  ],
+  "variants": [
+    {"name": "correct_control", "factors": {}, "segments": 4},
+    {"name": "benign_partition", "factors": {}, "segments": 9},
+    {"name": "nuisance_density", "factors": {"density": 0.5}, "segments": 4},
+    {"name": "modulus_fault", "factors": {"modulus": 0.5}, "segments": 4},
+    {"name": "area_fault", "factors": {"area": 0.5}, "segments": 4},
+    {"name": "load_fault", "factors": {"applied_load": 0.5}, "segments": 4}
+  ],
+  "menu": [
+    {"id": "completed", "cost": 1, "observable": null},
+    {"id": "stress", "cost": 1, "observable": "stress"},
+    {"id": "displacement", "cost": 1, "observable": "displacement"},
+    {"id": "reaction", "cost": 1, "observable": "force"}
+  ],
+  "cost_unit": "declared acquisition token, not measured runtime or money",
+  "selection_target": "modulus sensitivity; a comparator design choice, never the correctness label"
+}

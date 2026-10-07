@@ -195,10 +195,10 @@ correct behaviour, not an obstacle.
 - **Positions are not fully parametric.** On the clamp, block size and bore
   diameter are driven by variables; slot and bolt-hole *positions* are authored
   coordinates, so large engagement changes would need repositioning.
-- **No FEA-side oracle.** The CAD stage gates on volume. The FEA stage reports
-  displacement and stress with no independent check that they are right, only
-  that the solve completed. Comparing against a closed-form stress-concentration
-  result is the natural next gate.
+- **FEA evidence has separate boundaries.** The later runner compares stress
+  with an approximate correlation. Completion, agreement and mesh stability
+  remain distinct; see the [2026-10-06 correction](../cadloop/fea/README.md).
+  Historical figures do not independently verify their underlying solve.
 - **Host timing is unstable.** A single `OpenDoc6` has taken from seconds to
   13 minutes 18 seconds. Retry the open and poll for results on a long deadline;
   never infer completion from a launch call returning.
