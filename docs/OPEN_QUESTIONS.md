@@ -31,11 +31,11 @@ its modified JSON and untracked instructions, was neither read nor changed.
 
 ## AUD-3: PR #5 review
 
-[PR #5](https://github.com/500ft/engineering-audit/pull/5) contains only CodeQL,
+[PR #5](https://github.com/500ft/evidence-sufficiency-benchmark/pull/5) contains only CodeQL,
 Dependency Review and Dependabot configuration. Its diff and recorded successful
 checks were inspected on 2026-10-06 at head
 `f27458001d304cc179f05a1b99fef4bf6866d300`. Live inspection on 2026-10-07
-confirmed that PR #5 and the substantive pivot [PR #10](https://github.com/500ft/engineering-audit/pull/10)
+confirmed that PR #5 and the substantive pivot [PR #10](https://github.com/500ft/evidence-sufficiency-benchmark/pull/10)
 are merged. CI maintenance is not research evidence.
 No new review of its action versions or rerun of its historical checks is claimed.
 
