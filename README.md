@@ -12,9 +12,13 @@ loading. Correct controls, benign mesh partitions, a nuisance density change,
 and seeded parameter faults are checked against an independent analytic answer
 and a separately assembled stiffness model.
 
-![Computed stress comparison](reports/evidence-sufficiency/boundary-condition.png)
+![Seeded axial-bar development example: stress, extension and reaction checks for control and half-modulus artifacts under force and displacement loading](reports/evidence-sufficiency/boundary-condition.png)
 
-Verification example, not physical validation. The figure reads the executed
+Verification example, not physical validation. Circles mark controls and squares
+mark half-modulus artifacts; dashed lines show specification references. Each
+point labels its observable check result. Both half-modulus artifacts fail the
+full response tuple. [SVG](reports/evidence-sufficiency/boundary-condition.svg).
+The figure reads the executed
 [results](reports/evidence-sufficiency/results.json); dimensions, units, loads,
 perturbations and check costs live in the [specification](studies/evidence_sufficiency/spec.json).
 See the [computed outcome matrix and comparator table](reports/evidence-sufficiency/matrix.md)
@@ -63,7 +67,8 @@ reference agreement and mesh convergence are separate facts. The preserved
 global sweep is not converged under the declared stability criterion. Later
 hole-refined records show close peaks but do not establish systematic refinement
 convergence. See the [offline interpretation](reports/fea-interpretation.json)
-and [FEA scope](cadloop/fea/README.md). No new host run was made for this pivot.
+and [FEA evidence table](reports/fea-interpretation.md). See
+[FEA scope](cadloop/fea/README.md) for the criterion and limitations. No new host run was made for this pivot.
 
 ## Navigation
 

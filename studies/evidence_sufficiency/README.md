@@ -83,5 +83,16 @@ python -m studies.evidence_sufficiency.plot
 [results.json](../../reports/evidence-sufficiency/results.json) is the numeric
 result home. It binds specification and source bytes by SHA-256. The generated
 Markdown table and PNG are views of these results, not separately maintained
-numbers. The figure compares correct and half-modulus stress in each loading
-configuration, in MPa. It is a verification example, not physical validation.
+numbers. The PNG and editable-text SVG compare control and half-modulus stress, extension
+and reaction under each loading convention. Each observable uses the same scale
+across both loading rows, includes zero and the original specification reference,
+and labels its check outcome. No uncertainty interval is inferred.
+It is a verification example, not physical validation.
+
+The runner also writes `outcomes.csv` and `policies.csv` as full-precision views
+of `results.json`. CSV coverage and decision error are fractions; the Markdown
+table displays percentages. An empty decision-error CSV field means undefined
+because the policy made no decisions. Artifact CSV headings include physical
+units; policy costs remain abstract tokens. Controls precede faults in both
+loading tables. The figure shows the modulus comparison; the tables retain all
+artifacts and check outcomes.

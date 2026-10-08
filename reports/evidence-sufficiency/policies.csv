@@ -1,0 +1,7 @@
+policy,artifacts,wrong_accepts,wrong_rejects,abstentions,cost,coverage,mean_cost,error_among_decisions
+fixed_stress,12,2.0,0.0,0.0,12.0,1.0,1.0,0.16666666666666666
+random,12,3.0,0.0,0.0,12.0,1.0,1.0,0.25
+sensitivity,12,1.0,0.0,0.0,12.0,1.0,1.0,0.08333333333333333
+all_checks,12,0.0,0.0,0.0,48.0,1.0,4.0,0.0
+cautious_stress,12,0.0,0.0,8.0,12.0,0.3333333333333333,1.0,0.0
+abstain,12,0.0,0.0,12.0,0.0,0.0,0.0,

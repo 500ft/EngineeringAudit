@@ -1,0 +1,13 @@
+artifact_id,loading,variant,full_tuple_correct,stress_MPa,extension_mm,reaction_N,completion_pass,stress_pass,extension_pass,reaction_pass
+8b8b84d646f9,force,correct_control,True,50.0,0.025,1000,True,True,True,True
+29dd30d1df31,force,benign_partition,True,50.0,0.025,1000,True,True,True,True
+64f86da30fb8,force,nuisance_density,True,50.0,0.025,1000,True,True,True,True
+5d7839545a84,force,modulus_fault,False,50.0,0.05,1000,True,True,False,True
+ee90b3ba9de6,force,area_fault,False,100.0,0.05,1000,True,False,False,True
+6e5e366e6ca3,force,load_fault,False,25.0,0.0125,500.0,True,False,False,False
+94e18937ad4f,displacement,correct_control,True,50.0,0.025,1000.0,True,True,True,True
+8de649329487,displacement,benign_partition,True,50.0,0.025,1000.0,True,True,True,True
+6fa50c72b65e,displacement,nuisance_density,True,50.0,0.025,1000.0,True,True,True,True
+abd629c1ac38,displacement,modulus_fault,False,25.0,0.025,500.0,True,False,True,False
+e8e0331f89d1,displacement,area_fault,False,50.0,0.025,500.0,True,True,True,False
+cb896d709610,displacement,load_fault,False,25.0,0.0125,500.0,True,False,False,False
