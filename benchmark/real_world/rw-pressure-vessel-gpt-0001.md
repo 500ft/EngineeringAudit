@@ -25,8 +25,8 @@
 }
 ```
 
-## Run Instructions
+## Retired capture slot
 
-Run `prompts/pressure_vessel_prompt_v1.md` in GPT, record the exact model name,
-model version if shown, run date, temperature/settings if known, and paste the
-raw response into `llm_response.response`.
+The capture campaign is superseded by [the active roadmap](../../ROADMAP.md).
+This unfilled record remains unchanged as an evaluator skip fixture and to
+reproduce the historical report. It is not an active collection task.

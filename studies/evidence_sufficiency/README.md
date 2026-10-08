@@ -5,6 +5,10 @@ that a passing stress check can be blind to an incorrect elastic modulus.
 It also exposes a remaining blind spot for the modulus-sensitivity selector:
 an area fault under displacement loading requires the reaction check.
 
+The [active roadmap](../../ROADMAP.md) specifies the next claim-specific schema,
+check applicability, setup/execution costs and exposure gates. Those features
+are not implemented by this preserved full-tuple development example.
+
 ## Independent question and answer
 
 The specification is [spec.json](spec.json). A straight uniform linear elastic

@@ -1,22 +1,23 @@
-# Captures
+# Preserved model captures
 
-Immutable, hash-verified raw model captures. This tree is the rail for genuine
-`gold`/`silver` captures; nothing here is fabricated or synthetic.
+This tree contains the original challenge-protocol evidence for the calculation
+verifier. It is historical development evidence, not a reserved evaluation set
+for the current [roadmap](../ROADMAP.md). The capture campaign and CLI command
+are retired.
 
-Layout (pre-registered by `engineering_audit.capture`):
+- `prompts/`: original registered prompt bytes.
+- `models/`: recorded model identifiers and versions.
+- `runs/`: verbatim outputs, source records and ancillary artifacts with hashes.
+- Dated session reports retain the original collection methods and limitations.
 
-- `prompts/` — verbatim prompt text, one file per `prompt_id`. Re-registering a
-  prompt id with different text is refused.
-- `models/`  — one record per model id seen.
-- `runs/`    — one directory per captured run, named
-  `<model>__<prompt>__<output-hash12>`, holding the verbatim `output.txt`
-  (or `output.json`) and a `source.json` provenance record with the SHA-256 of
-  the captured bytes.
+Do not rewrite these records. The offline source in `engineering_audit.capture`
+remains available for provenance reproduction and hash verification. To verify
+all committed records without calling a model:
 
-A captured run is promoted into a `complete` `real_world` benchmark case by
-copying its output artifact into `benchmark/real_world/raw/` and referencing the
-recorded hash from the case `source.artifacts[]`. See `docs/capture_provenance.md`.
+```bash
+pytest tests/test_committed_captures.py
+```
 
-The actual model API call that produces `output.txt` is performed by the
-operator with their own credentials; `engineering-audit capture` only records
-the bytes it is handed (from a file or stdin) and never performs network access.
+Promoted benchmark cases reference the original artifacts. See
+[provenance rules](../docs/capture_provenance.md) and
+[the cleanup boundary](../docs/history/README.md#cleanup-boundary).

@@ -3,7 +3,7 @@
 [![CI](https://github.com/500ft/engineering-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/500ft/engineering-audit/actions/workflows/ci.yml)
 
 Can an automated reviewer recognize when passing evidence cannot verify a
-claimed property, and select checks that resolve the uncertainty?
+specific claim, and select the least-cost applicable checks that resolve it?
 
 The first executed evidence-sufficiency example covers a linear elastic axial
 bar under prescribed force and prescribed displacement. Stress is blind to an
@@ -21,6 +21,12 @@ See the [computed outcome matrix and comparator table](reports/evidence-sufficie
 and [derivation and evidence boundary](studies/evidence_sufficiency/README.md).
 This is one mechanics family with two loading configurations, not a completed
 multi-problem benchmark or evidence of general reviewer performance.
+
+The [active roadmap](ROADMAP.md) gives prerequisites and completion evidence.
+Its next step is a claim-specific schema and independently qualified references.
+The public example still uses full-tuple correctness and abstract check tokens;
+claim-relative sufficiency, setup/execution costs and reserved-family evaluation
+remain future work. The wild-capture campaign and its CLI entry point are retired.
 
 ## Reproduce
 

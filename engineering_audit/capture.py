@@ -1,24 +1,10 @@
-"""Provenance-first capture harness for real model outputs.
+"""Offline provenance source retained for existing capture records and tests.
 
-This module is the rail on which genuine ``gold``/``silver`` captures will run.
-It deliberately does **not** call any model API or network: the verbatim raw
-output is supplied by the caller (via a file or stdin). The harness's job is to
-turn a (prompt, model id, raw output) triple into an immutable, hash-verified
-artifact plus a ``SourceRecord``-shaped provenance record, stored under a
-``captures/`` tree with a pre-registered ``prompts/`` / ``models/`` / ``runs/``
-structure.
-
-Nothing here fabricates evidence. It only records and hashes what it is handed,
-so that when the operator runs a real model later, capturing it is a single
-command and the result is tamper-evident by construction.
-
-The provenance record produced here is intentionally a subset of the benchmark
-``source`` object documented in ``docs/schema_contract.md`` and
-``docs/capture_provenance.md``: ``provenance_tier`` (``gold``/``silver``),
-provider/model/version/date, run settings, ``raw_output_available``, and a typed
-``artifacts`` list carrying the SHA-256 of the verbatim bytes. A captured run can
-later be promoted into a ``complete`` ``real_world`` benchmark case by copying its
-artifact into ``benchmark/real_world/raw/`` and referencing the recorded hash.
+The capture campaign and CLI entry point are retired. This library retains the
+record-writing implementation, hash verification and tampering regressions used
+to reproduce the historical evidence format. It records caller-supplied bytes;
+it does not run models or perform network access. The active research plan is
+ROADMAP.md, separate from this legacy capture format.
 """
 
 from __future__ import annotations
@@ -377,26 +363,16 @@ def verify_capture(root: Path, run_id: str) -> SourceRecord:
 
 
 _CAPTURES_README = """\
-# Captures
+# Capture records
 
-Immutable, hash-verified raw model captures. This tree is the rail for genuine
-`gold`/`silver` captures; nothing here is fabricated or synthetic.
+Offline provenance records written by `engineering_audit.capture` from supplied
+bytes. This library does not run models. The former capture CLI is retired.
 
-Layout (pre-registered by `engineering_audit.capture`):
+- `prompts/`: registered prompt text with stable identifiers.
+- `models/`: recorded model identifiers and versions.
+- `runs/`: supplied outputs and source records with artifact hashes.
 
-- `prompts/` — verbatim prompt text, one file per `prompt_id`. Re-registering a
-  prompt id with different text is refused.
-- `models/`  — one record per model id seen.
-- `runs/`    — one directory per captured run, named
-  `<model>__<prompt>__<output-hash12>`, holding the verbatim `output.txt`
-  (or `output.json`) and a `source.json` provenance record with the SHA-256 of
-  the captured bytes.
-
-A captured run is promoted into a `complete` `real_world` benchmark case by
-copying its output artifact into `benchmark/real_world/raw/` and referencing the
-recorded hash from the case `source.artifacts[]`. See `docs/capture_provenance.md`.
-
-The actual model API call that produces `output.txt` is performed by the
-operator with their own credentials; `engineering-audit capture` only records the bytes
-it is handed (from a file or stdin) and never performs network access.
+Use `verify_capture(root, run_id)` to check stored artifacts. Historical records
+are not authorization to collect new outputs; follow the active project roadmap
+and the protocol for any separately authorized study.
 """

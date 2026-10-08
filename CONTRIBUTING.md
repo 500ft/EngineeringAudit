@@ -1,7 +1,8 @@
 # Contributing
 
-engineering-audit is benchmark-driven: observed or deliberately constructed
-cases define the behavior before verifier logic is extended.
+Follow [ROADMAP.md](ROADMAP.md), the only active plan. Current research concerns
+claim-specific evidence sufficiency. The calculation verifier and capture library
+remain for reproducing and checking retained evidence.
 
 ## Development setup
 
@@ -21,7 +22,14 @@ engineering-audit eval benchmark/
 Both commands must pass. The batch evaluator is also a false-positive gate for
 reference cases whose expected failure-mode set is empty.
 
-## Adding a benchmark case
+## Evidence-sufficiency work
+
+Use the claim, independent-reference and exposure prerequisites in the roadmap.
+The public development example lives in `studies/evidence_sufficiency/`; its
+full-tuple schema is not yet a claim-specific benchmark schema. Freeze reserved
+families before reviewer or policy tuning. Keep historical results reproducible.
+
+## Maintaining legacy calculation cases
 
 1. Start from the appropriate template under `benchmark/`.
 2. Use a stable lowercase case identifier.
@@ -36,9 +44,11 @@ model transcript from a summary.
 
 ## Captured outputs
 
-Use `engineering-audit capture` so prompt, response, metadata, and digests are
-stored together. Do not edit a completed raw artifact in place. Create a new run
-when the prompt, response, model settings, or metadata change.
+The capture CLI and wild-capture campaign are retired. Keep raw artifacts,
+source records and registered prompts unchanged. `engineering_audit.capture`
+remains the offline source for their record format and verification tests; it
+does not call models. A new collection campaign requires its own authorization
+and protocol. See [the capture index](captures/README.md).
 
 ## CAD loop
 

@@ -1,5 +1,9 @@
 # Results, data and figure index
 
+The sole active development plan is [ROADMAP.md](../ROADMAP.md). The result
+below is completed development evidence; future claim-specific benchmark gates
+are recorded in that roadmap.
+
 ## Current evidence-sufficiency result
 
 | Artifact | Meaning | Reproduction |
@@ -35,7 +39,7 @@ wild-usage performance. See [provenance](capture_provenance.md),
 [schema](schema_contract.md), and [limitations](../LIMITATIONS.md).
 
 [History](history/README.md) indexes original captures, dated CAD/FEA records,
-old figures and the superseded research schedule at their stable paths.
+old figures at their stable paths and removed schedules through Git history.
 The previous pipeline diagram was removed from the current README because it
 described the earlier evaluator question; its source remains in Git history.
 [Figure manifest](figure-manifest.json) records the active figure and historical
