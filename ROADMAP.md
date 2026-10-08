@@ -1,54 +1,213 @@
 # Roadmap: evidence sufficiency
 
-Updated 2026-10-06. This is the repository's active plan.
+## Question and finish line
 
-## Adopted question
+Can a reviewer recognize when passing evidence cannot verify a specific claim,
+and select the least-cost applicable check or combination that settles the
+claim within a stated budget?
 
-Can an automated reviewer recognize when passing evidence cannot verify the
-claimed property, and select checks that resolve it within a fixed budget?
+This is the only active plan. The [owner decision](docs/OPEN_QUESTIONS.md)
+authorizes its adoption and repository cleanup. It does not authorize model
+spending, recruitment, host experiments or publication.
 
-The owner authorized this bounded software implementation on 2026-10-06.
-[The decision record](docs/OPEN_QUESTIONS.md) limits adoption to this question
-and records superseded work. Physical readiness and model spending are not part
-of that decision.
+The core finish line is a reproducible, independently labeled benchmark with
+claim-specific decisions, executed check outcomes, cost-matched non-LLM
+baselines, a qualified reviewer pilot if separately authorized, and a write-up
+whose claims match the completed evaluation. Without the pilot, the deliverable
+is explicitly a benchmark and baseline result; reviewer performance remains
+unanswered. A negative comparison is a valid result.
 
-## Executed current step
+## Verified foundation: done
 
-The [first result](reports/evidence-sufficiency/matrix.md) is a development
-verification example for a uniform axial bar under force and displacement
-loading. The full check menu was executed for every artifact. Independent
-closed-form answers and a separately assembled stiffness system check labels
-before any selector is scored. Correct controls, benign partition changes,
-nuisance density changes and seeded faults are included. The comparator smoke
-test isolates policy inputs and reports errors, abstention and cost at matched
-coverage. It makes no claim of policy superiority on unseen defects.
+Prerequisites were an explicit axial-bar specification, analytic answers and a
+separate stiffness implementation. Completion evidence is the public
+[development matrix](reports/evidence-sufficiency/matrix.md), its
+[source and derivation](studies/evidence_sufficiency/README.md), and
+[reference tests](tests/test_evidence_sufficiency.py). The result covers one
+mechanics family under force and displacement loading, with correct, benign,
+nuisance and seeded-fault artifacts. Its claim is the full response tuple;
+its costs are abstract tokens. It is not a private evaluation set or a qualified
+measure of total verification effort.
 
-The [FEA correction](reports/fea-interpretation.json) separates completion,
-reference agreement and mesh stability using preserved original records. CAD
-machinery and previous calculation-verifier results remain accessible through
-[history](docs/history/README.md).
+The [FEA interpretation](reports/fea-interpretation.json) and
+[record regressions](tests/test_fea_interpretation.py) separately establish
+completion, correlation agreement and mesh-stability status. The global sweep
+fails the declared stability criterion; refined single-mesh records leave
+convergence unknown. Retained CAD/FEA assets are indexed in [history](docs/history/README.md).
 
-## Finish line and remaining work
+## Dependency order
 
-A benchmark result needs independently qualified problem specifications,
-predeclared check costs, a complete outcome matrix, and a frozen evaluation
-protocol with whole defect families held out before selection-policy tuning.
-Report errors at matched coverage and cost, and coverage at matched error;
-keep seeded and natural failures separate and cluster any uncertainty by base
-problem. Two loading configurations of one bar are not independent base problems.
+Claim definition -> qualified references and controls -> frozen truth and
+reserved families -> full applicable-check matrix -> non-LLM baselines and
+verified discriminating checks -> authorized reviewer pilot -> scoped write-up.
 
-Next: qualify a genuinely different analytic family with a separate derivation
-and implementation, then grow toward the v2 target only where reference validity
-and coverage justify it. A NAFEMS or Code_Aster case needs the exact geometry,
-constraints, load, stress component and reference rights/source checked first.
-A published scalar alone is insufficient. No such case is claimed here.
+Freezing reserved families precedes reviewer or selection-policy tuning.
+Extensions depend on the base result and a separate frozen evaluation design.
+No new benchmark experiment or reviewer run is part of the roadmap cleanup.
 
-Before a confirmatory result, freeze reserved defect families and opaque reviewer
-inputs. The published development matrix cannot serve as a hidden evaluation
-set. Candidate LLM policies remain optional until references and the holdout
-protocol are independently reviewed; no model calls or recruitment are planned
-in this task. If a fixed checklist matches the candidate on held-out families,
-report that result. If labels disagree, stop policy evaluation and fix references.
+## M1. Claim-specific foundation: current, incomplete
 
-The old wild-capture schedule is superseded, not completed. See
-[its preserved roadmap](docs/history/roadmap-before-v2-2026-10-06.md).
+**Prerequisite:** the reproduced development foundation above. Start with the
+claim definition; do not expand a case whose reference or decision is unresolved.
+
+### M1.1 Define the decision and evidence boundary
+
+- Add explicit claim, observable, units, decision threshold/tolerance, loading
+  convention and assumptions to the study schema, separate from legacy
+  calculation-verifier metadata.
+- Define artifact correctness against the independent specification for that
+  claim. Define evidence sufficiency over the declared set of compatible
+  explanations, rather than equating it with a check passing.
+- Revisit the bar as separate stress and deflection claims. A modulus change
+  that cannot alter force-controlled stress need not invalidate that stress
+  claim. Require examples where the same evidence resolves one claim but leaves
+  another unresolved.
+
+**Completion evidence:** schema, derived labels and tests showing those
+claim-relative outcomes, including the decision boundaries. The existing
+full-tuple matrix does not yet supply this result.
+
+### M1.2 Qualify independent problems
+
+**Prerequisite:** M1.1's claim contract. The provisional benchmark target is
+**10 independently qualified base problems in total, including 2 published-reference
+problems**, not additional reference cases. This is a coverage target subject
+to qualification, not a sample-size justification or a claim that cases exist.
+
+- Select distinct problems across applicable axial, bending, pressure-vessel,
+  holed-plate and conduction physics. Parameter variants and loading variants
+  do not by themselves create independent problems.
+- Derive answers and cross-check using a separately implemented method such as
+  stiffness assembly, energy or conservation. Record assumptions and source
+  rights. A NAFEMS or Code_Aster candidate needs its exact geometry, load,
+  constraints, observable and convention; no isolated published stress value
+  is an answer key for an unspecified case.
+- Arrange an independent collaborator review with scope and discrepancies
+  recorded. Reviewer availability is an unresolved input. Resolve disagreements
+  before admitting a problem or evaluating policies.
+
+**Completion evidence:** admitted problem specifications, derivations, independent
+cross-checks and review records, with exclusions and actual coverage stated.
+Revise the target explicitly if it cannot be qualified; do not fill it with
+nominal variants.
+
+### M1.3 Controls, truth and exposure freeze
+
+**Prerequisite:** qualified claims and references from M1.1–M1.2.
+
+- Match faults to applicable physics: elastic modulus for elasticity, thermal
+  conductivity for conduction, and boundary, unit or reference-convention
+  defects only where meaningful. Include correct controls, benign changes and
+  uncertainties that cannot change the claim's decision.
+- Define truth from specifications and independent references, never from a
+  sensitivity selector or mutation name. For claimed insufficiency, construct
+  two allowed explanations consistent with available evidence but giving
+  opposite claim decisions. If no such pair exists, do not label the evidence
+  insufficient by assertion.
+- Register the split and reserve whole defect families before any reviewer or
+  policy tuning. Freeze labels, hashes, exposure rules and opaque identifiers;
+  keep reserved answers and outcomes unavailable to tuning. Public development
+  artifacts stay in development. No existing holdout is to be opened for setup.
+
+**Completion evidence:** reviewed labels, compatible-explanation witnesses,
+a frozen manifest and exposure protocol. Unsupported labels stop expansion.
+
+## M2. Outcome matrix and non-LLM baselines: future
+
+**Prerequisite:** M1's qualified specifications, labels and exposure freeze.
+
+### M2.1 Execute the applicable menu
+
+- Declare applicability and costs for candidate stress, displacement, reaction,
+  energy, re-drive, mesh-refinement and specification checks. A check can be
+  inapplicable; record why instead of treating it as a pass or failure.
+- Include setup and execution costs, shared setup reuse and units. Declare how
+  costs are measured or estimated and how combinations are charged. The current
+  equal-token demonstration is not this cost model.
+- Execute every applicable check on every artifact in the outcome-generation
+  harness. Preserve failures and inapplicability. Restrict reviewer access to
+  purchased observations and protect reserved outcomes from developers tuning
+  policies.
+
+**Completion evidence:** complete outcome matrix bound to frozen inputs,
+execution records and a reproducible cost ledger, with missing outcomes explicit.
+
+### M2.2 Baselines and discriminating checks
+
+**Prerequisite:** M2.1's outcomes and costs; M1.3's exposure rules remain in force.
+
+- Compare a dependency rule table, sensitivity policy, fixed expert checklist
+  and random equal-cost selection on development inputs.
+- For each insufficient case, verify that a proposed informative check actually
+  distinguishes its two compatible explanations in the executed matrix. Allow
+  combinations and multiple equally useful choices. Claim least cost only
+  within the declared applicable menu and cost model.
+- Score wrong accepts, wrong rejects, useful acceptance, abstention and total
+  cost at matched decision coverage/budget. Report coverage at matched error;
+  accepting, rejecting or abstaining on everything must not masquerade as a
+  useful solution. Keep seeded and natural failures separate.
+
+**Completion evidence:** reproducible baseline scores and witness/check outcomes,
+with residual ambiguity reported when no affordable check resolves the claim.
+Identical observations with opposite truth require abstention, not guessing.
+
+## M3. Reviewer pilot: future, authorization and review gates unresolved
+
+**Prerequisites:** M1–M2 complete, independent label review, frozen reviewer
+exposure and scoring protocol, and owner authorization for the model run and
+its resources. The present task authorizes no model calls.
+
+- Implement a claim-and-evidence interface that reveals only purchased checks;
+  hide mutation descriptions, filenames and reference answers.
+- Qualify the harness on development artifacts. Pin model versions, prompts,
+  tool behavior and budgets and retain complete transcripts. Model count and
+  pilot size are design targets to justify from coverage and paired variation,
+  not a guarantee of power.
+- Evaluate under the predeclared split without retuning on reserved families.
+  Report per-base-problem results and cluster uncertainty by independent base
+  problem where the sample supports it, not by check or time sample.
+
+**Completion evidence:** authorized run records, exposure audit and reproducible
+scores against M2 baselines. If the rule table or checklist matches reviewers
+at matched coverage and cost, narrow the claim. If references or the harness
+fail, repair and requalify before interpreting reviewer performance.
+
+## M4. Write-up: future
+
+**Prerequisites:** M2 complete and M3 complete if reviewer-performance claims are
+made. If the pilot remains blocked, explicitly limit the report to the executed
+benchmark and baseline result.
+
+- Report the question, admitted cases, references, outcomes, costs, comparisons
+  and limitations. Distinguish seed detection from natural failures and software
+  verification from physical validation.
+- Verify relevant prior work before positioning novelty; candidate literature
+  includes MooseBench, ALL-FEM, CADTests and CADEngBench. Inclusion here does not
+  establish what those works demonstrate.
+- Link figures to executed numeric sources and provide reproduction commands.
+
+**Completion evidence:** a reproducible report with claims bounded by the actual
+comparison, including negative results and unresolved scope. Publication remains
+an owner decision.
+
+## Conditional extensions
+
+**Prerequisite for each:** the base benchmark result and a separately frozen
+extension design before exposure. These are optional, not blockers for the
+scoped benchmark and baseline write-up.
+
+- **CAD/FEA:** qualify exact model/reference pairs for mesh stability, material,
+  convention or import defects. Reuse retained machinery. Completion evidence
+  is independent claim truth and executed applicable checks. Historical solver
+  success and stress agreement alone do not supply it; host execution needs
+  separate authorization and resources.
+- **Broader family transfer:** admit genuinely new families and freeze their
+  evaluation before tuning. Completion evidence is a held-out comparison with
+  coverage and cost reported. This adds to the initial holdout requirement.
+- **Human comparison:** requires the institution's determination and separate
+  owner authorization, resources and recruitment protocol before recruitment.
+  Completion evidence would be an authorized study and its scoped analysis.
+
+No hardware readiness, funding, purchase, reviewer availability, naming or
+publication decision is inferred from this plan. Next work is M1.1; pilot and
+physical-study gates remain unresolved in [open questions](docs/OPEN_QUESTIONS.md).

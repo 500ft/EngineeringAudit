@@ -1,12 +1,15 @@
-# Benchmark Cases
+# Retained calculation-verifier cases
 
-The benchmark defines what engineering-audit should eventually verify. Cases
-should be added before verifier logic whenever possible so implementation
-follows observed failure behavior instead of imagined behavior.
+This collection reproduces the historical calculation-verifier report and
+retains useful formula, provenance and false-positive regressions. The active
+evidence-sufficiency work follows [ROADMAP.md](../ROADMAP.md) and its separate
+[development example](../studies/evidence_sufficiency/README.md). The old
+wild-capture campaign is retired; unfilled slots are retained skip fixtures.
 
 ## Folders
 
-- `real_world/`: transcript-backed LLM failures from actual engineering work.
+- `real_world/`: challenge-protocol model outputs, reviewer-synthesis controls
+  and unfilled slots, distinguished by their metadata. This is not wild-use evidence.
 - `synthetic/`: clearly labeled artificial cases for targeted coverage. This
   includes both single-mode failure cases (`syn-fm*`, `syn-arith-*`) and
   analytically/FEA-grade-validated **ground-truth controls** (`syn-kt-hole-*`,
@@ -16,7 +19,7 @@ follows observed failure behavior instead of imagined behavior.
   no-failure positives (`failure_modes: []`), `provenance_tier: synthetic`; they
   are not model runs and must never be described as wild captures.
 
-Real-run capture slots may live in `real_world/` with `status:
+Historical unfilled capture slots remain in `real_world/` with `status:
 pending_capture`, but they must not be described as completed real LLM failures
 until the raw model output is present. Anonymize coursework, names, dates, or
 project details when needed, but do not fabricate provenance.

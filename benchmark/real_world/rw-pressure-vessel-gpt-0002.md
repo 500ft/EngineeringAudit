@@ -25,7 +25,8 @@
 }
 ```
 
-## Run Instructions
+## Retired capture slot
 
-Run the canonical prompt in a separate GPT session from `rw-pressure-vessel-gpt-0001`
-and paste the raw response here.
+The capture campaign is superseded by [the active roadmap](../../ROADMAP.md).
+This unfilled record remains unchanged as an evaluator skip fixture and to
+reproduce the historical report. It is not an active collection task.

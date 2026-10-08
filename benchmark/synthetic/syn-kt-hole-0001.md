@@ -11,8 +11,8 @@ infinite-plate value Kt = 3.0 to within ~0.4% (the fit's limit is 3.004). See
 
 It is a no-failure positive control: the `llm_response` shown is an *author-written
 correct solution* used to exercise false-positive behavior, with
-`failure_modes: []`. The capture harness (`engineering-audit capture`) and provenance
-tiers are reserved for genuine model runs; this case is `provenance_tier:
+`failure_modes: []`. The capture provenance
+tiers for genuine model runs do not apply here; this case is `provenance_tier:
 synthetic` and carries no transcript.
 
 ```json

@@ -14,8 +14,8 @@ permission for external model spending.
 
 - The old priority to collect wild failures and execute the week-by-week v1
   schedule is superseded by AUD-1. It is not answered by challenge captures.
-  [Original roadmap](history/roadmap-before-v2-2026-10-06.md) and
-  [v1 plan](v1_plan.md) are history; captures remain intact.
+  Obsolete schedules were removed in the owner-directed cleanup;
+  [history](history/README.md) links their pre-cleanup source. Captures remain intact.
 - FEA implementation and parametric re-drive are recorded capabilities, so
   their old "not implemented" questions are closed with links to
   [CAD records](../cadloop/evidence/README.md) and
@@ -34,17 +34,42 @@ its modified JSON and untracked instructions, was neither read nor changed.
 [PR #5](https://github.com/500ft/engineering-audit/pull/5) contains only CodeQL,
 Dependency Review and Dependabot configuration. Its diff and recorded successful
 checks were inspected on 2026-10-06 at head
-`f27458001d304cc179f05a1b99fef4bf6866d300`. It remains open and untouched.
-It is neither a dependency nor research evidence for this main-based change.
+`f27458001d304cc179f05a1b99fef4bf6866d300`. Live inspection on 2026-10-07
+confirmed that PR #5 and the substantive pivot [PR #10](https://github.com/500ft/engineering-audit/pull/10)
+are merged. CI maintenance is not research evidence.
 No new review of its action versions or rerun of its historical checks is claimed.
 
-## Remaining qualification
+## AUD-4: dependency plan and cleanup adoption, 2026-10-07
 
-- Independently review the problem specifications and labels before expansion
-  or an external reviewer study. Current stiffness cross-checks are software
-  verification, not a second human's review.
-- Add a genuinely distinct base problem before treating variation as replication.
-- Register unseen defect families and reviewer exposure rules before a held-out
-  evaluation. No existing holdout was opened or used in this task.
-- CAD feature-position checks and host latency remain useful engineering issues,
-  outside this software result. See [CAD limitations](cad_fea_loop.md).
+The owner requested an active roadmap with no dates or schedule estimates,
+prerequisites and completion evidence, plus actual removal of obsolete active
+code and documentation. [ROADMAP.md](../ROADMAP.md) adopts that dependency plan
+and is the sole active task list. This implements section 1 of the external
+`ROADMAPS_20261007.md` handoff with the project-specific corrections.
+
+The benchmark target in the roadmap includes its published-reference cases.
+It remains subject to independent qualification. Holdout freezing moves before
+reviewer or policy tuning. Applicability and setup plus execution costs are
+required; defects must match the physics. The existing public bar example is
+development evidence, not a qualified claim-specific or hidden benchmark.
+
+The cleanup removes the old capture CLI, obsolete schedules, prompt-hardening
+instructions and active requests to fill old capture slots. The
+[history index](history/README.md) records the consumer checks and specific
+retentions. This adoption does not authorize running the proposed experiments.
+
+## Remaining inputs and decisions
+
+- Next uncompleted technical step: the roadmap's claim-specific schema. No
+  additional base problem, claim relabeling or reviewer pilot was executed by
+  this cleanup.
+- Independent collaborator review and reviewer availability remain unresolved.
+  Stiffness cross-checks are software verification, not a second human review.
+- Model pilot execution and resources require separate owner authorization.
+- Human comparison is optional and requires the institution's determination
+  and separate authorization before recruitment.
+- Host CAD/FEA execution, physical study, hardware, funding, purchases, naming
+  and publication have no new approval here. Useful CAD position checks and
+  latency questions remain outside this cleanup; see [CAD limitations](cad_fea_loop.md).
+- Reserved families must remain unexposed until the registered evaluation.
+  No existing holdout was opened or used in this task.
