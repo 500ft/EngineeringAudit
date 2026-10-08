@@ -7,8 +7,9 @@ and select the least-cost applicable check or combination that settles the
 claim within a stated budget?
 
 This is the only active plan. The [owner decision](docs/OPEN_QUESTIONS.md)
-authorizes its adoption and repository cleanup. It does not authorize model
-spending, recruitment, host experiments or publication.
+authorizes its adoption, repository cleanup and the completed M1.1 software
+implementation. Model spending, recruitment, host experiments and publication
+require separate authorization.
 
 The core finish line is a reproducible, independently labeled benchmark with
 claim-specific decisions, executed check outcomes, cost-matched non-LLM
@@ -43,31 +44,33 @@ verified discriminating checks -> authorized reviewer pilot -> scoped write-up.
 
 Freezing reserved families precedes reviewer or selection-policy tuning.
 Extensions depend on the base result and a separate frozen evaluation design.
-No new benchmark experiment or reviewer run is part of the roadmap cleanup.
+The M1.1 implementation reuses public development inputs; later milestones
+retain their qualification and authorization prerequisites.
 
 ## M1. Claim-specific foundation: current, incomplete
 
 **Prerequisite:** the reproduced development foundation above. Start with the
 claim definition; do not expand a case whose reference or decision is unresolved.
 
-### M1.1 Define the decision and evidence boundary
+### M1.1 Define the decision and evidence boundary: done
 
-- Add explicit claim, observable, units, decision threshold/tolerance, loading
-  convention and assumptions to the study schema, separate from legacy
-  calculation-verifier metadata.
-- Define artifact correctness against the independent specification for that
-  claim. Define evidence sufficiency over the declared set of compatible
-  explanations, rather than equating it with a check passing.
-- Revisit the bar as separate stress and deflection claims. A modulus change
-  that cannot alter force-controlled stress need not invalidate that stress
-  claim. Require examples where the same evidence resolves one claim but leaves
-  another unresolved.
+The [claim contract and derivation](studies/evidence_sufficiency/claims/README.md)
+declare observable, units, inclusive absolute tolerance, loading convention,
+assumptions and a finite set of implementation explanations. Artifact correctness
+is agreement with the independent specification for that claim. Evidence
+sufficiency is unanimity of correctness decisions across compatible explanations;
+empty support is inconsistent evidence.
 
-**Completion evidence:** schema, derived labels and tests showing those
-claim-relative outcomes, including the decision boundaries. The existing
-full-tuple matrix does not yet supply this result.
+**Completion evidence:** the [executed claim matrix](reports/claim-sufficiency/matrix.md)
+and [regressions](tests/test_claim_sufficiency.py) show the same force-controlled
+stress evidence resolving stress agreement while allowing opposite deflection
+decisions. Displacement control changes compatibility as independently derived.
+Tests cover boundaries, separate evidence tolerances, name invariance and
+stiffness cross-checks. The historical full-tuple result remains reproducible.
+This completes the public bar claim definition within the declared explanation
+set; independently qualified problems and label review remain incomplete.
 
-### M1.2 Qualify independent problems
+### M1.2 Qualify independent problems: next, incomplete
 
 **Prerequisite:** M1.1's claim contract. The provisional benchmark target is
 **10 independently qualified base problems in total, including 2 published-reference
@@ -209,5 +212,5 @@ scoped benchmark and baseline write-up.
   Completion evidence would be an authorized study and its scoped analysis.
 
 No hardware readiness, funding, purchase, reviewer availability, naming or
-publication decision is inferred from this plan. Next work is M1.1; pilot and
+publication decision is inferred from this plan. Next work is M1.2; pilot and
 physical-study gates remain unresolved in [open questions](docs/OPEN_QUESTIONS.md).

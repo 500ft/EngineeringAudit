@@ -5,9 +5,12 @@ that a passing stress check can be blind to an incorrect elastic modulus.
 It also exposes a remaining blind spot for the modulus-sensitivity selector:
 an area fault under displacement loading requires the reaction check.
 
-The [active roadmap](../../ROADMAP.md) specifies the next claim-specific schema,
-check applicability, setup/execution costs and exposure gates. Those features
-are not implemented by this preserved full-tuple development example.
+The separate [claim-specific development result](claims/README.md) completes
+roadmap M1.1 using this foundation: stress and deflection have distinct
+correctness decisions and evidence sufficiency. This page documents the
+preserved full-tuple experiment. The [active roadmap](../../ROADMAP.md) retains
+independent-problem qualification, check applicability, setup/execution costs
+and exposure gates as subsequent work.
 
 ## Independent question and answer
 
