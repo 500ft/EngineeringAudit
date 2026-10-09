@@ -80,6 +80,15 @@ redundancy. Zero and specification references remain visible. Each observable
 has its own axis and a shared range across loading conventions; there are no
 error bars or dual axes. SVG text remains editable.
 
+On 2026-10-09 the owner asked for one figure pass across the 500ft
+repositories. [`studies/figure_style.py`](../studies/figure_style.py) holds the
+shared rules: three type sizes by role, outward ticks, frameless legends, one
+colour and marker per variant, 300-dpi PNG and SVG without timestamps. The
+figure keeps the design above. Row titles state which checks detect the fault,
+and the plot asserts them against the results before saving. Points carry check
+outcomes only; numeric values live in the matrix table. Category names appear
+once, on the bottom row.
+
 The active matrix is split into compact Markdown tables rather than rasterized.
 Numeric columns align right, controls precede faults, percentages have one
 decimal and physical values retain enough decimals for the supplied cases.
@@ -87,9 +96,13 @@ Full-precision CSVs are generated views of the same numeric JSON. Blank policy
 CSV decision error means no decisions; it is shown as N/A in Markdown.
 The FEA table similarly distinguishes a missing within-run change from a failed
 stability criterion. It preserves completion and reference agreement separately.
+The claim table names the elastic modulus in its header and shows stress to one
+decimal, as the development matrix does.
 
 Historical CAD/FEA contours and the deformation animation are retained unchanged
-because they are original run artifacts. The legacy evaluator report stays
+because they are original run artifacts. They use the solver's rainbow colour
+map; redrawing them needs a MAPDL rerun on the licensed host, and the nodal
+fields are not committed. The legacy evaluator report stays
 unchanged as the reproducible historical result; its PASS/SKIP semantics are
 explained above. Existing CAD workflow diagrams and navigation tables describe
 retained machinery and do not encode new scientific results. No manuscript or

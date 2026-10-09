@@ -89,7 +89,9 @@ Markdown table and PNG are views of these results, not separately maintained
 numbers. The PNG and editable-text SVG compare control and half-modulus stress, extension
 and reaction under each loading convention. Each observable uses the same scale
 across both loading rows, includes zero and the original specification reference,
-and labels its check outcome. No uncertainty interval is inferred.
+and labels its check outcome. Row titles name the checks that detect the fault;
+the plot checks them against the results before saving. Numeric values stay in
+the Markdown table. No uncertainty interval is inferred.
 It is a verification example, not physical validation.
 
 The runner also writes `outcomes.csv` and `policies.csv` as full-precision views
