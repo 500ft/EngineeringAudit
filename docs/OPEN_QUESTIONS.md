@@ -85,5 +85,11 @@ source reuse rights, model spending, host execution or reserved-case expansion.
 - Host CAD/FEA execution, physical study, hardware, funding, purchases, naming
   and publication have no new approval here. Useful CAD position checks and
   latency questions remain outside this cleanup; see [CAD limitations](cad_fea_loop.md).
+- Naming: Zhang and Wu 2026 already use the title "Evidence Sufficiency
+  Benchmark" for an unrelated LLM abstention benchmark. See the README section
+  [Prior work and positioning (2026-10-09)](../README.md#prior-work-and-positioning-2026-10-09)
+  and [references.bib](references.bib). External write-ups need a
+  distinguishing title; the repository name is unchanged and renaming remains
+  an owner decision that has not been made.
 - Reserved families must remain unexposed until the registered evaluation.
   No existing holdout was opened or used in this task.
