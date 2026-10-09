@@ -40,6 +40,30 @@ full-tuple example retains abstract check tokens; setup/execution costs and
 reserved-family evaluation remain future work. The wild-capture campaign and
 its CLI entry point are retired.
 
+## Prior work and positioning (2026-10-09)
+
+Entries are in [docs/references.bib](docs/references.bib).
+
+- The formal core, choosing checks to decide which of several explanations
+  holds, is known as equivalence class determination or group identification:
+  Golovin, Krause and Ray 2010 (EC2), Chen, Hassani and Krause 2017 (correlated
+  and noisy tests), Bellala, Bhavnani and Scott 2012 (group-based active query
+  selection for rapid diagnosis). The formulation is cited, not claimed as new.
+- The blind-check design (seeded faults the reviewer must detect) follows
+  Salari and Knupp 2000, who seeded coding mistakes into a code-verification
+  exercise and ran a blind test. Cite it as the design precedent.
+- The claim here is the counting result only: whether a reviewer recognises
+  that the engineering evidence for a specific claim is insufficient and buys
+  the checks that settle it. A benchmark of that kind was not found in the
+  2026-10-09 review (abstract-level, web search only, forward citations not
+  searched).
+- Name collision: Zhang and Wu 2026 (Computers, Materials and Continua) use
+  the title "Evidence Sufficiency Benchmark" for an LLM answer-abstention
+  benchmark in retrieval-augmented generation, a different field and not prior
+  art for this question. Any paper or external write-up from this repo must
+  use a distinguishing title, for example "engineering evidence sufficiency".
+  The repository name is unchanged; the owner has not decided on renaming.
+
 ## Reproduce
 
 ```bash

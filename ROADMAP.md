@@ -141,6 +141,11 @@ execution records and a reproducible cost ledger, with missing outcomes explicit
 
 - Compare a dependency rule table, sensitivity policy, fixed expert checklist
   and random equal-cost selection on development inputs.
+- Add a greedy decision-theoretic (value-of-information) check-selection rule
+  to that comparison. EC2-style methods (Golovin, Krause and Ray 2010; Chen,
+  Hassani and Krause 2017; see [docs/references.bib](docs/references.bib)) are
+  exactly such greedy rules. Added 2026-10-09 from the 2026-10-09 literature
+  review under owner instruction.
 - For each insufficient case, verify that a proposed informative check actually
   distinguishes its two compatible explanations in the executed matrix. Allow
   combinations and multiple equally useful choices. Claim least cost only
