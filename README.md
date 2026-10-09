@@ -1,6 +1,8 @@
-# engineering-audit
+# Evidence Sufficiency Benchmark
 
-[![CI](https://github.com/500ft/engineering-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/500ft/engineering-audit/actions/workflows/ci.yml)
+Formerly `engineering-audit`. The Python package and command-line tool keep that name.
+
+[![CI](https://github.com/500ft/evidence-sufficiency-benchmark/actions/workflows/ci.yml/badge.svg)](https://github.com/500ft/evidence-sufficiency-benchmark/actions/workflows/ci.yml)
 
 Can an automated reviewer recognize when passing evidence cannot verify a
 specific claim, and select the least-cost applicable checks that resolve it?
