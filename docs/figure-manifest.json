@@ -7,6 +7,7 @@
       "status": "current",
       "evidence_type": "computed analytic verification example, not physical validation",
       "generator": "studies/evidence_sufficiency/plot.py",
+      "style": "studies/figure_style.py",
       "command": "python -m studies.evidence_sufficiency.plot",
       "inputs": [
         "reports/evidence-sufficiency/results.json",
@@ -21,7 +22,7 @@
         "extension": "mm",
         "reaction": "N"
       },
-      "caption": "Seeded development: control and half-modulus full response tuples under force and displacement loading. Panels label each observable check; this is not physical validation."
+      "caption": "Seeded development: control and half-modulus full response tuples under force and displacement loading. Row titles name the checks that detect the half-modulus fault; each point shows its check outcome. This is not physical validation."
     },
     {
       "id": "legacy-cad-contours-and-deformation",
@@ -56,6 +57,16 @@
         "reports/evidence-sufficiency/policies.csv"
       ],
       "evidence_type": "seeded development, full-tuple correctness, abstract costs"
+    },
+    {
+      "id": "claim-sufficiency",
+      "generator": "studies/evidence_sufficiency/claims/run.py",
+      "command": "python -m studies.evidence_sufficiency.claims.run",
+      "source": "reports/claim-sufficiency/results.json",
+      "outputs": [
+        "reports/claim-sufficiency/matrix.md"
+      ],
+      "evidence_type": "public axial-bar development, finite implementation explanations, no physical validation"
     },
     {
       "id": "fea-evidence",

@@ -47,11 +47,11 @@ def table(result: dict) -> str:
         lines += ["", "Both explanations keep geometry, loading and all stated assumptions fixed.",
                   "Only the implemented elastic modulus differs. Correctness is checked independently",
                   "against the original specification, not the explanation identifier.", "",
-                  "| Explanation | Implemented E [MPa] | Stress [MPa] | Deflection [mm] | Stress correct | Deflection correct |",
+                  "| Explanation | Implemented modulus E [MPa] | Stress [MPa] | Deflection [mm] | Stress correct | Deflection correct |",
                   "| :--- | ---: | ---: | ---: | :---: | :---: |"]
         for artifact in case["artifacts"]:
             o, correct = artifact["output"], artifact["claim_correctness"]
-            lines.append(f'| {artifact["id"]} | {artifact["implemented_modulus_MPa"]:g} | {o["stress"]:g} | {o["displacement"]:.4f} | {"Yes" if correct["stress"] else "No"} | {"Yes" if correct["deflection"] else "No"} |')
+            lines.append(f'| {artifact["id"]} | {artifact["implemented_modulus_MPa"]:g} | {o["stress"]:.1f} | {o["displacement"]:.4f} | {"Yes" if correct["stress"] else "No"} | {"Yes" if correct["deflection"] else "No"} |')
         lines += ["", "| Claim | Compatible explanations | Evidence sufficient | Resolved decision | Opposite-decision witness |",
                   "| :--- | :--- | :---: | :--- | :--- |"]
         for name, assessment in case["claims"].items():

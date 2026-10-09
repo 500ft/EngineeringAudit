@@ -24,10 +24,10 @@ Both explanations keep geometry, loading and all stated assumptions fixed.
 Only the implemented elastic modulus differs. Correctness is checked independently
 against the original specification, not the explanation identifier.
 
-| Explanation | Implemented E [MPa] | Stress [MPa] | Deflection [mm] | Stress correct | Deflection correct |
+| Explanation | Implemented modulus E [MPa] | Stress [MPa] | Deflection [mm] | Stress correct | Deflection correct |
 | :--- | ---: | ---: | ---: | :---: | :---: |
-| H1 | 200000 | 50 | 0.0250 | Yes | Yes |
-| H2 | 100000 | 50 | 0.0500 | Yes | No |
+| H1 | 200000 | 50.0 | 0.0250 | Yes | Yes |
+| H2 | 100000 | 50.0 | 0.0500 | Yes | No |
 
 | Claim | Compatible explanations | Evidence sufficient | Resolved decision | Opposite-decision witness |
 | :--- | :--- | :---: | :--- | :--- |
@@ -44,10 +44,10 @@ Both explanations keep geometry, loading and all stated assumptions fixed.
 Only the implemented elastic modulus differs. Correctness is checked independently
 against the original specification, not the explanation identifier.
 
-| Explanation | Implemented E [MPa] | Stress [MPa] | Deflection [mm] | Stress correct | Deflection correct |
+| Explanation | Implemented modulus E [MPa] | Stress [MPa] | Deflection [mm] | Stress correct | Deflection correct |
 | :--- | ---: | ---: | ---: | :---: | :---: |
-| H1 | 200000 | 50 | 0.0250 | Yes | Yes |
-| H2 | 100000 | 25 | 0.0250 | No | Yes |
+| H1 | 200000 | 50.0 | 0.0250 | Yes | Yes |
+| H2 | 100000 | 25.0 | 0.0250 | No | Yes |
 
 | Claim | Compatible explanations | Evidence sufficient | Resolved decision | Opposite-decision witness |
 | :--- | :--- | :---: | :--- | :--- |

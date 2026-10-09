@@ -18,7 +18,8 @@ and a separately assembled stiffness model.
 
 Verification example, not physical validation. Circles mark controls and squares
 mark half-modulus artifacts; dashed lines show specification references. Each
-point labels its observable check result. Both half-modulus artifacts fail the
+point labels its observable check result, and each row title names the checks
+that detect the fault under that loading. Both half-modulus artifacts fail the
 full response tuple. [SVG](reports/evidence-sufficiency/boundary-condition.svg).
 The figure reads the executed
 [results](reports/evidence-sufficiency/results.json); dimensions, units, loads,
