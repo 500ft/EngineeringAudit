@@ -8,7 +8,8 @@ It requires the licensed host; the offline interpretation below does not.
 ## Corrected interpretation, 2026-10-06
 
 [Original runs](runs) remain unchanged. The [derived interpretation](../../reports/fea-interpretation.json)
-binds them by hash and separates three facts:
+binds them by hash and separates three facts. The generated
+[evidence table](../../reports/fea-interpretation.md) keeps these fields in separate columns:
 
 - `solver_completed`: meshes returned finite stress and displacement.
 - `reference_agrees`: the final solved peak matches the recorded correlation

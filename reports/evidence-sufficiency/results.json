@@ -515,9 +515,9 @@
   "provenance": {
     "studies/evidence_sufficiency/spec.json": "4f7b60e6707f2e6f15405ca6509dd6205b348d6617195f1dbc6f6d9753d764df",
     "studies/evidence_sufficiency/artifact.py": "d00906627a82e877744acffa18b3a1efafbee8c9183a3de9d6a9a8a66052d843",
-    "studies/evidence_sufficiency/plot.py": "902aeb059d28f5ef10bbc512ad543edced823a171663de0869fe8f5e8ed8f662",
+    "studies/evidence_sufficiency/plot.py": "cae703b8d8b55c7522f71b8d1260940db8e04c55d21737687454b1b2d8025a97",
     "studies/evidence_sufficiency/policies.py": "70d4bb68067b3784df5795ba988eed290adb858468b31d20c71bb168f46edee9",
     "studies/evidence_sufficiency/reference.py": "28352c707eb8f768529d61f776addeb8d826583210b886a5fdecf048708d0ef3",
-    "studies/evidence_sufficiency/run.py": "a430de986529f6854fed26836f05747578cfd8809158fe8b533d2454a569ca8c"
+    "studies/evidence_sufficiency/run.py": "c21a3222a223f3dd627e7a8da594e2cd68cefba3484db3c4403c14d80325f8ea"
   }
 }

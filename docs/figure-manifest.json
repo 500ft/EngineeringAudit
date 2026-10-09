@@ -8,16 +8,28 @@
       "evidence_type": "computed analytic verification example, not physical validation",
       "generator": "studies/evidence_sufficiency/plot.py",
       "command": "python -m studies.evidence_sufficiency.plot",
-      "inputs": ["reports/evidence-sufficiency/results.json", "studies/evidence_sufficiency/spec.json"],
-      "outputs": ["reports/evidence-sufficiency/boundary-condition.png"],
-      "units": {"vertical_axis": "MPa"},
-      "caption": "Correct and half-modulus stress under prescribed force and prescribed displacement; all configuration and outcome provenance is in the linked input files."
+      "inputs": [
+        "reports/evidence-sufficiency/results.json",
+        "studies/evidence_sufficiency/spec.json"
+      ],
+      "outputs": [
+        "reports/evidence-sufficiency/boundary-condition.png",
+        "reports/evidence-sufficiency/boundary-condition.svg"
+      ],
+      "units": {
+        "stress": "MPa",
+        "extension": "mm",
+        "reaction": "N"
+      },
+      "caption": "Seeded development: control and half-modulus full response tuples under force and displacement loading. Panels label each observable check; this is not physical validation."
     },
     {
       "id": "legacy-cad-contours-and-deformation",
       "status": "history",
       "evidence_type": "visualization of original numerical solves, not independent evidence",
-      "inputs": ["cadloop/fea/runs"],
+      "inputs": [
+        "cadloop/fea/runs"
+      ],
       "index": "docs/history/README.md"
     },
     {
@@ -25,8 +37,35 @@
       "status": "superseded",
       "evidence_type": "architecture diagram of the earlier calculation verifier",
       "source_commit": "6e55653",
-      "inputs": ["README.md", "docs/data-and-figures.md"],
+      "inputs": [
+        "README.md",
+        "docs/data-and-figures.md"
+      ],
       "index": "docs/history/README.md"
+    }
+  ],
+  "tables": [
+    {
+      "id": "development-matrix",
+      "generator": "studies/evidence_sufficiency/run.py",
+      "command": "python -m studies.evidence_sufficiency.run",
+      "source": "reports/evidence-sufficiency/results.json",
+      "outputs": [
+        "reports/evidence-sufficiency/matrix.md",
+        "reports/evidence-sufficiency/outcomes.csv",
+        "reports/evidence-sufficiency/policies.csv"
+      ],
+      "evidence_type": "seeded development, full-tuple correctness, abstract costs"
+    },
+    {
+      "id": "fea-evidence",
+      "generator": "cadloop/fea/interpret.py",
+      "command": "python -m cadloop.fea.interpret",
+      "source": "reports/fea-interpretation.json",
+      "outputs": [
+        "reports/fea-interpretation.md"
+      ],
+      "evidence_type": "preserved host records, retrospective stability criterion, no new solve"
     }
   ]
 }
