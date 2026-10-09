@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "scope": "Public axial-bar development only; finite implementation explanations, not physical validation or a held-out benchmark",
+  "assumptions": [
+    "uniform straight bar",
+    "linear elastic isotropic material",
+    "small axial deformation",
+    "left end fixed and lateral contraction free",
+    "no body force or inertia",
+    "no thermal strain",
+    "geometry and applied loading known; only implemented modulus is uncertain"
+  ],
+  "cases": [
+    {"source_case": "bar_force", "loading_convention": "force"},
+    {"source_case": "bar_displacement", "loading_convention": "displacement"}
+  ],
+  "claims": [
+    {"id": "stress", "observable": "stress", "unit": "MPa", "decision_rule": "within_reference_tolerance", "absolute_tolerance": 1e-8},
+    {"id": "deflection", "observable": "displacement", "unit": "mm", "decision_rule": "within_reference_tolerance", "absolute_tolerance": 1e-8}
+  ],
+  "allowed_explanations": [
+    {"id": "H1", "source_variant": "correct_control"},
+    {"id": "H2", "source_variant": "modulus_fault"}
+  ],
+  "observations": [
+    {"observable": "stress", "unit": "MPa", "absolute_tolerance": 1e-8}
+  ],
+  "evidence_source_variant": "correct_control"
+}

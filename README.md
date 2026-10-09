@@ -29,10 +29,15 @@ This is one mechanics family with two loading configurations, not a completed
 multi-problem benchmark or evidence of general reviewer performance.
 
 The [active roadmap](ROADMAP.md) gives prerequisites and completion evidence.
-Its next step is a claim-specific schema and independently qualified references.
-The public example still uses full-tuple correctness and abstract check tokens;
-claim-relative sufficiency, setup/execution costs and reserved-family evaluation
-remain future work. The wild-capture campaign and its CLI entry point are retired.
+M1.1 now separates claim correctness from evidence sufficiency in a
+[claim-specific result](reports/claim-sufficiency/matrix.md). Under force control,
+the same observed stress resolves stress agreement but leaves deflection
+agreement ambiguous across the declared implementation explanations. See the
+[claim contract and independent derivation](studies/evidence_sufficiency/claims/README.md).
+The next step is independently qualified problems and review. The historical
+full-tuple example retains abstract check tokens; setup/execution costs and
+reserved-family evaluation remain future work. The wild-capture campaign and
+its CLI entry point are retired.
 
 ## Reproduce
 
@@ -41,12 +46,13 @@ python -m venv .venv
 source .venv/bin/activate
 python -m pip install -e '.[test]'
 python -m studies.evidence_sufficiency.run
+python -m studies.evidence_sufficiency.claims.run
 python -m cadloop.fea.interpret
 pytest
 engineering-audit eval benchmark/
 ```
 
-The first two module commands are local calculations and record interpretation;
+These module commands are local calculations and record interpretation;
 they do not contact a model or a CAD host. To regenerate the figure, install
 `matplotlib` and run `python -m studies.evidence_sufficiency.plot`.
 

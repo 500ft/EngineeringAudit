@@ -58,11 +58,25 @@ instructions and active requests to fill old capture slots. The
 [history index](history/README.md) records the consumer checks and specific
 retentions. This adoption does not authorize running the proposed experiments.
 
+## AUD-5: bounded M1.1 implementation
+
+The owner authorized implementation of the axial-bar claim contract and a
+scoped review PR. The [executed claim matrix](../reports/claim-sufficiency/matrix.md)
+separates artifact correctness from evidence sufficiency. It demonstrates
+compatible explanations with opposite deflection decisions while resolving
+stress agreement under force control. The
+[derivation and tests](../studies/evidence_sufficiency/claims/README.md) include
+the loading convention and decision boundaries. The original full-tuple
+development result remains reproducible.
+
+This authorization ends at M1.1. It supplies no independent problem review,
+source reuse rights, model spending, host execution or reserved-case expansion.
+
 ## Remaining inputs and decisions
 
-- Next uncompleted technical step: the roadmap's claim-specific schema. No
-  additional base problem, claim relabeling or reviewer pilot was executed by
-  this cleanup.
+- Next uncompleted technical step: M1.2's independently qualified problems and
+  review. M1.1 adds claim-relative development labels for the existing bar;
+  no additional base problem or reviewer pilot was executed.
 - Independent collaborator review and reviewer availability remain unresolved.
   Stiffness cross-checks are software verification, not a second human review.
 - Model pilot execution and resources require separate owner authorization.

@@ -20,6 +20,26 @@ used. The table and figure derive their numbers from the executed matrix.
 [Protocol and derivation](../studies/evidence_sufficiency/README.md) explain the
 independent reference and what selectors can observe.
 
+## Claim-specific development result
+
+The M1.1 [claim contract](../studies/evidence_sufficiency/claims/spec.json) adds
+explicit observables, units, agreement and evidence tolerances, loading
+conventions, assumptions and allowed implementation explanations. It reuses the
+foundation's dimensions and loads. The
+[numeric result](../reports/claim-sufficiency/results.json) is the source for the
+[generated table](../reports/claim-sufficiency/matrix.md), separating artifact
+correctness from claim-specific evidence sufficiency. Regenerate both with:
+
+```bash
+python -m studies.evidence_sufficiency.claims.run
+```
+
+The [derivation and reproduction notes](../studies/evidence_sufficiency/claims/README.md)
+explain the finite explanation boundary and retained-row hashes. A table keeps
+the compatible explanations and opposite decisions directly comparable; no
+additional figure is needed. The full-tuple result and its figure above remain
+unchanged by M1.1.
+
 ## Preserved calculation-verifier benchmark
 
 [benchmark-results.md](../reports/benchmark-results.md) is the numeric result
